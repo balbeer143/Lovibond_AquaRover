@@ -6,7 +6,7 @@
 <div class="bg-white p-8 rounded-lg shadow">
     <h1 class="text-2xl font-bold text-blue-900 mb-6">Upload Data</h1>
 
-    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+    <form action="{{ 'importExcelData' }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <!-- Basic Info -->
@@ -15,6 +15,7 @@
                 <label class="block text-sm font-semibold">Name*</label>
                 <input type="text" name="name" required class="w-full border rounded px-3 py-2">
             </div>
+            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
             <div>
                 <label class="block text-sm font-semibold">Tested By*</label>
                 <input type="text" name="tested_by" required class="w-full border rounded px-3 py-2">
@@ -113,7 +114,7 @@
             <label class="block text-sm font-semibold">
                 Upload Screenshot for Longitude and Latitude
             </label>
-            <input type="file" name="location_map" accept="image/*" class="w-full border rounded px-3 py-2" required>
+            <input type="file" name="location_screenShot" accept="image/*" class="w-full border rounded px-3 py-2" required>
         </div>
 
         <!-- Sample Type -->
@@ -175,25 +176,25 @@
             <!-- XD7500 -->
             <div id="xd7500_field" class="hidden border p-4 rounded bg-gray-50">
                 <h2 class="font-bold text-blue-800 mb-2">XD7500</h2>
-                <input type="file" name="xd7500_csv" accept=".csv" class="w-full border rounded px-3 py-2">
+                <input type="file" name="xd7500_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- SD335 -->
             <div id="sd335_field" class="hidden border p-4 rounded bg-gray-50">
                 <h2 class="font-bold text-blue-800 mb-2">SD335</h2>
-                <input type="file" name="sd335_csv" accept=".csv" class="w-full border rounded px-3 py-2">
+                <input type="file" name="sd335_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- MD610 -->
             <div id="md610_field" class="hidden border p-4 rounded bg-gray-50">
                 <h2 class="font-bold text-blue-800 mb-2">MD610</h2>
-                <input type="file" name="md610_csv" accept=".csv" class="w-full border rounded px-3 py-2">
+                <input type="file" name="md610_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- TB350 -->
             <div id="tb350_field" class="hidden border p-4 rounded bg-gray-50">
                 <h2 class="font-bold text-blue-800 mb-2">TB350</h2>
-                <input type="file" name="tb350_csv" accept=".csv" class="w-full border rounded px-3 py-2">
+                <input type="file" name="tb350_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- SD400 Oxi L -->
@@ -220,7 +221,7 @@
 
                 <div class="mt-4">
                     <label class="block text-sm font-semibold">Upload SD400 Oxi L Image</label>
-                    <input type="file" name="sd400_csv" accept="image/*" class="w-full border rounded px-3 py-2">
+                    <input type="file" name="sd400_files" accept="image/*" class="w-full border rounded px-3 py-2">
                 </div>
             </div>
         </div>
@@ -247,6 +248,9 @@
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Instrument fields toggle
     const checkboxes = document.querySelectorAll('.instrument-check');
 
     checkboxes.forEach(cb => {
@@ -274,5 +278,8 @@
     } else {
         alert("Geolocation is not supported by your browser.");
     }
+
+});
 </script>
+
 @endsection

@@ -37,28 +37,28 @@
 
             <!-- Nav -->
             <nav class="flex-1 p-4 space-y-2">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-2 py-2 px-3 rounded hover:bg-[#F07815] transition-colors">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-2 py-2 px-3 rounded transition-colors {{ request()->routeIs('dashboard') ? 'bg-[#ea580c] text-white' : 'hover:bg-[#F07815]' }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 12h18M3 6h18M3 18h18"></path>
                     </svg>
                     Dashboard
                 </a>
-                <a href="uploadData" class="flex items-center gap-2 py-2 px-3 rounded hover:bg-[#F07815] transition-colors">
+                <a href="{{ route('uploadData') }}" class="flex items-center gap-2 py-2 px-3 rounded transition-colors {{ request()->routeIs('uploadData') ? 'bg-[#ea580c] text-white' : 'hover:bg-[#F07815]' }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 9l5-5 5 5M12 4v12"></path>
                     </svg>
                     Upload Data
                 </a>
-                <a href="#" class="flex items-center gap-2 py-2 px-3 rounded hover:bg-[#F07815] transition-colors">
+                <a href="#" class="flex items-center gap-2 py-2 px-3 rounded transition-colors {{ request()->routeIs('') ? 'bg-[#ea580c] text-white' : 'hover:bg-[#F07815]' }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 9l5-5 5 5M12 4v12"></path>
                     </svg>
                     My Uploads
                 </a>
-                <a href="#" class="flex items-center gap-2 py-2 px-3 rounded hover:bg-[#F07815] transition-colors">
+                <a href="#" class="flex items-center gap-2 py-2 px-3 rounded whitespace-nowrap transition-colors {{ request()->routeIs('') ? 'bg-[#ea580c] text-white' : 'hover:bg-[#F07815]' }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 9l5 5 5-5M12 4v10"></path>
