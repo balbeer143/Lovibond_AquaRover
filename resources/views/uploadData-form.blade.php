@@ -162,7 +162,7 @@
         <div>
             <label class="block text-sm font-semibold">Tested on Instruments*</label>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                @foreach(['XD7500','SD335','MD610','TB350','SD400 Oxi L'] as $inst)
+                @foreach(['XD7500','SD335','MD610','TB350','SD400 Oxi L','SD40'] as $inst)
                 <label>
                     <input type="checkbox" name="instruments[]" value="{{ $inst }}" class="instrument-check"> {{ $inst }}
                 </label>
@@ -175,31 +175,37 @@
 
             <!-- XD7500 -->
             <div id="xd7500_field" class="hidden border p-4 rounded bg-gray-50">
-                <h2 class="font-bold text-blue-800 mb-2">XD7500</h2>
+                <h2 class="font-bold text-blue-800 mb-2">XD7500 Instrument</h2>
                 <input type="file" name="xd7500_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- SD335 -->
             <div id="sd335_field" class="hidden border p-4 rounded bg-gray-50">
-                <h2 class="font-bold text-blue-800 mb-2">SD335</h2>
+                <h2 class="font-bold text-blue-800 mb-2">SD335 Instrument</h2>
                 <input type="file" name="sd335_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- MD610 -->
             <div id="md610_field" class="hidden border p-4 rounded bg-gray-50">
-                <h2 class="font-bold text-blue-800 mb-2">MD610</h2>
+                <h2 class="font-bold text-blue-800 mb-2">MD610 Instrument</h2>
                 <input type="file" name="md610_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- TB350 -->
             <div id="tb350_field" class="hidden border p-4 rounded bg-gray-50">
-                <h2 class="font-bold text-blue-800 mb-2">TB350</h2>
+                <h2 class="font-bold text-blue-800 mb-2">TB350 Instrument</h2>
                 <input type="file" name="tb350_files" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
             </div>
 
             <!-- SD400 Oxi L -->
             <div id="sd400_field" class="hidden border p-4 rounded bg-gray-50">
-                <h2 class="font-bold text-blue-800 mb-3">SD400 Oxi L Parameters</h2>
+                <h2 class="font-bold text-blue-800 mb-2">SD400 Oxi L Instrument</h2>
+                <input type="file" name="sd400_oxi_l_field" accept=".xlsx,.xls,.csv" class="w-full border rounded px-3 py-2">
+            </div>
+
+            <!--  -->
+            <div id="sd40_field" class="hidden border p-4 rounded bg-gray-50">
+                <h2 class="font-bold text-blue-800 mb-3">SD40 Instrument</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <label>pH:
@@ -220,8 +226,8 @@
                 </div>
 
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold">Upload SD400 Oxi L Image</label>
-                    <input type="file" name="sd400_files" accept="image/*" class="w-full border rounded px-3 py-2">
+                    <label class="block text-sm font-semibold">Upload SD40 Image</label>
+                    <input type="file" name="sd40_files" accept="image/*" class="w-full border rounded px-3 py-2">
                 </div>
             </div>
         </div>
@@ -260,6 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('md610_field').classList.toggle('hidden', !document.querySelector('input[value="MD610"]').checked);
             document.getElementById('tb350_field').classList.toggle('hidden', !document.querySelector('input[value="TB350"]').checked);
             document.getElementById('sd400_field').classList.toggle('hidden', !document.querySelector('input[value="SD400 Oxi L"]').checked);
+            document.getElementById('sd40_field').classList.toggle('hidden', !document.querySelector('input[value="SD40"]').checked);
         });
     });
 
