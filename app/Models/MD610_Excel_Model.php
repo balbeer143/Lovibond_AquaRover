@@ -27,5 +27,10 @@ class MD610_Excel_Model extends Model
         'code_no',
         'current_instrument_firmware_version',
         'instrument_firmware_version',
+         'user_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

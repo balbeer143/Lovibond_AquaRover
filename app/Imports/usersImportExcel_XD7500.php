@@ -15,10 +15,18 @@ class usersImportExcel_XD7500 implements ToModel, WithCustomCsvSettings, WithSta
      * @return \Illuminate\Database\Eloquent\Model|null
      */
 
-    public function startRow(): int {
+    protected $userId;
+
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    public function startRow(): int
+    {
         return 2;
     }
-    
+
     public function getCsvSettings(): array
     {
         return [
@@ -27,6 +35,7 @@ class usersImportExcel_XD7500 implements ToModel, WithCustomCsvSettings, WithSta
     }
     public function model(array $row)
     {
+        // dd($this->userId);
         return new XD7500_Excel_Model([
             'memory_id'             => $row[0] ?? null,
             'date_time'             => $row[1] ?? null,
@@ -48,6 +57,7 @@ class usersImportExcel_XD7500 implements ToModel, WithCustomCsvSettings, WithSta
             'measured_absorbance'   => $row[17] ?? null,
             'cal_id'                => $row[18] ?? null,
             'mq'                    => $row[19] ?? null,
+            'user_id'               => $this->userId,
         ]);
     }
 }

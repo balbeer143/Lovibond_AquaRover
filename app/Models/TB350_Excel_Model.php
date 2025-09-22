@@ -16,5 +16,10 @@ class TB350_Excel_Model extends Model
         'mode',
         'sample_id',
         'signal_average_readings',
+         'user_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

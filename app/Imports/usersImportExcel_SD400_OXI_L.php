@@ -15,6 +15,12 @@ class usersImportExcel_SD400_OXI_L implements ToModel, WithStartRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
 
+    protected $userId;
+
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
     public function startRow(): int{
         return 2;
     }
@@ -31,6 +37,7 @@ class usersImportExcel_SD400_OXI_L implements ToModel, WithStartRow
             'saturation'   => $row[4] ?? null, // Saturation (%)
             'temperature'  => $row[5] ?? null, // Temperature(degC)
             'pressure'     => $row[6] ?? null, // Pressure (kPa)
+            'user_id'               => $this->userId,
         ]);
     }
 }

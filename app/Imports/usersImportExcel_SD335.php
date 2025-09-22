@@ -15,6 +15,12 @@ class usersImportExcel_SD335 implements ToModel, WithCustomCsvSettings, WithStar
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+    protected $userId;
+
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
 
     public function startRow(): int{
         return 2;
@@ -27,11 +33,13 @@ class usersImportExcel_SD335 implements ToModel, WithCustomCsvSettings, WithStar
     }
     public function model(array $row)
     {
+        // dd($this->userId);
         return new SD335_Excel_Model([
             'timestamp' => $row[0] ?? null,  // timestamp_utc
             'value'     => $row[1] ?? null,  // value
             'unit'      => $row[2] ?? null,  // unit
             'location'  => $row[3] ?? null,  // location
+            'user_id' => $this->userId,
         ]);
     }
 }

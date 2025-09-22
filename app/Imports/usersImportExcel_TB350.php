@@ -14,7 +14,12 @@ class usersImportExcel_TB350 implements ToModel, WithStartRow
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+    protected $userId;
 
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
     public function startRow(): int
     {
         return 2;
@@ -50,6 +55,7 @@ class usersImportExcel_TB350 implements ToModel, WithStartRow
             'mode'                     => $row[5] ?? null,
             'sample_id'                => $row[6] ?? null,
             'signal_average_readings'  => $row[7] ?? null,
+            'user_id'               => $this->userId,
         ]);
     }
 }

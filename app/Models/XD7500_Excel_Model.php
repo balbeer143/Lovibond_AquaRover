@@ -29,5 +29,11 @@ class XD7500_Excel_Model extends Model
         'measured_absorbance',
         'cal_id',
         'mq',
+        'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

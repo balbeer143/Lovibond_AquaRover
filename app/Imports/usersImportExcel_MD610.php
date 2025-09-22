@@ -15,6 +15,13 @@ class usersImportExcel_MD610 implements ToModel, WithCustomCsvSettings, WithStar
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+
+    protected $userId;
+
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
     public function startRow(): int
     {
         return 2;
@@ -75,6 +82,7 @@ class usersImportExcel_MD610 implements ToModel, WithCustomCsvSettings, WithStar
             'code_no' => $row[15] ?? null,
             'current_instrument_firmware_version' => $row[16] ?? null,
             'instrument_firmware_version' => $row[17] ?? null,
+            'user_id'               => $this->userId,
         ]);
     }
 }

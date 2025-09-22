@@ -13,5 +13,10 @@ class SD335_Excel_Model extends Model
         'value',
         'unit',
         'location',
+        'user_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

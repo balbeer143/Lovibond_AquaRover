@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SD400_OXI_L_Excel_Model extends Model
 {
-   protected $table = 'SD400_OXI_L_sheet_data';
+   protected $table = 'sd400_oxi_l_sheet_data';
     protected $fillable = [
         'data_no',
         'date',
@@ -15,5 +15,10 @@ class SD400_OXI_L_Excel_Model extends Model
         'saturation',
         'temperature',
         'pressure',
+        'user_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
