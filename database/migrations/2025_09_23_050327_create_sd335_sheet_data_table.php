@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('sd335_sheet_data', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('timestamp')->nullable();  
-            $table->string('value')->nullable();         
-            $table->string('unit')->nullable();       
-            $table->string('location')->nullable();     
-            $table->timestamps();                     
+            $table->timestamp('timestamp')->nullable();
+            $table->string('value')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('location')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('SD335_sheet_data');
+        Schema::dropIfExists('sd335_sheet_data');
     }
 };

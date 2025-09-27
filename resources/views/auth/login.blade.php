@@ -36,6 +36,13 @@
                 @error('password')
                 <span class="text-red-500">{{ $message }}</span>
                 @enderror
+
+                <!-- 🔗 Forgot Password link -->
+                <div class="flex justify-end mt-1">
+                    <a href="{{ route('reset.password') }}" class="text-sm text-[#F07815] hover:underline">
+                        Forgot Password?
+                    </a>
+                </div>
             </div>
 
             <button type="submit"

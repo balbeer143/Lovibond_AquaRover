@@ -15,7 +15,6 @@
 
         <form action="{{ route('register.save') }}" method="POST" class="space-y-5">
             @csrf
-
             <div>
                 <label class="block text-gray-700 font-medium mb-1" for="name">Full Name</label>
                 <input type="text" name="name" id="name" placeholder="John Doe"

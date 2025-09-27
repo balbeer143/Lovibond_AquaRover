@@ -82,7 +82,7 @@ class usersImportExcel_MD610 implements ToModel, WithCustomCsvSettings, WithStar
             'code_no' => $row[15] ?? null,
             'current_instrument_firmware_version' => $row[16] ?? null,
             'instrument_firmware_version' => $row[17] ?? null,
-            'user_id'               => $this->userId,
+            'user_id' => $this->userId,
         ]);
     }
 }

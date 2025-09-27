@@ -37,7 +37,7 @@ class usersImportExcel_SD400_OXI_L implements ToModel, WithStartRow
             'saturation'   => $row[4] ?? null, // Saturation (%)
             'temperature'  => $row[5] ?? null, // Temperature(degC)
             'pressure'     => $row[6] ?? null, // Pressure (kPa)
-            'user_id'               => $this->userId,
+            'user_id'      => $this->userId,
         ]);
     }
 }
