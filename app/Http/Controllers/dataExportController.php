@@ -7,6 +7,7 @@ use App\Models\MD610_Excel_Model;
 use App\Models\SD400_OXI_L_Excel_Model;
 use App\Models\XD7500_Excel_Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelWriter;
 
@@ -33,22 +34,51 @@ class dataExportController extends Controller
         $from = $request->from_date ?: date('Y-m-d');
         $to   = $request->to_date ?: date('Y-m-d');
 
+        $user = Auth::user();
+
         $mergeData = [];
 
-        $xd7500 = XD7500_Excel_Model::select('method', 'value', 'unit')
-            ->whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
-            ->get();
+        // XD7500
+        if ($user && $user->role === 'admin') {
+            $xd7500 = XD7500_Excel_Model::select('method', 'value', 'unit')
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        } else {
+            $xd7500 = XD7500_Excel_Model::select('method', 'value', 'unit')
+                ->where('user_id', $user->id)
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        }
 
-        $md610 = MD610_Excel_Model::select('method_no', 'method_name', 'Result_1', 'units_and_chemical_formula_1')
-            ->whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
-            ->get();
+        // MD610
+        if ($user && $user->role === 'admin') {
+            $md610 = MD610_Excel_Model::select('method_no', 'method_name', 'Result_1', 'units_and_chemical_formula_1')
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        } else {
+            $md610 = MD610_Excel_Model::select('method_no', 'method_name', 'Result_1', 'units_and_chemical_formula_1')
+                ->where('user_id', $user->id)
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        }
 
-        $sd400 = SD400_OXI_L_Excel_Model::select('do_mg_l')
-            ->whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
-            ->get();
+        // SD400
+        if ($user && $user->role === 'admin') {
+            $sd400 = SD400_OXI_L_Excel_Model::select('do_mg_l')
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        } else {
+            $sd400 = SD400_OXI_L_Excel_Model::select('do_mg_l')
+                ->where('user_id', $user->id)
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        }
 
         $max = max($xd7500->count(), $md610->count(), $sd400->count());
 
@@ -65,14 +95,20 @@ class dataExportController extends Controller
             ];
         }
 
+        if (!$mergeData) {
+            return redirect()->back()->with('error', 'No data found for the selected date range.');
+        }
+
         $format = $request->format ?: 'xlsx';
         $extension = $format === 'csv' ? 'csv' : 'xlsx';
 
         $writerType = $format === 'csv' ? ExcelWriter::CSV : ExcelWriter::XLSX;
 
+        $prefix = $user->role === 'admin' ? "All_Users" : "";
+
         $filename = $from === $to
-            ? "daily_data_{$from}.{$extension}"
-            : "data_{$from}_to_{$to}.{$extension}";
+            ? "{$prefix}Today_Data_{$from}.{$extension}"
+            : "{$prefix}Selected_Date_Data_{$from}_to_{$to}.{$extension}";
 
         return Excel::download(new masterSheetExcelImport($mergeData), $filename, $writerType);
     }

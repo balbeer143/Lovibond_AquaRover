@@ -7,6 +7,7 @@ use App\Http\Controllers\registerController;
 use App\Http\Controllers\uploadDataController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\verifyOtpController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
 
@@ -37,4 +38,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/download-master-sheet', [dataExportController::class, 'viewDateRange'])->name('view.daterange');
     Route::post('/export/daterange', [dataExportController::class, 'exportDateRange'])->name('export.daterange');
 });
+
 
