@@ -213,48 +213,38 @@
         <div id="extra_fields" class="space-y-4 mt-6">
 
             <!-- XD7500 -->
-            <div id="xd7500_field" class="hidden border p-4 rounded bg-gray-50">
+            <div id="xd7500_field" class="hidden border p-4 rounded bg-gray-50 cursor-pointer">
                 <h2 class="font-bold text-blue-800 mb-2">XD7500 Instrument</h2>
-                <div class="drop-zone">
-                    <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
-                    <input type="file" name="xd7500_files" accept=".xlsx,.xls,.csv" class="hidden">
-                </div>
+                <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
+                <input type="file" name="xd7500_files" accept=".xlsx,.xls,.csv" class="hidden">
             </div>
 
             <!-- SD335 -->
-            <div id="sd335_field" class="hidden border p-4 rounded bg-gray-50">
+            <div id="sd335_field" class="hidden border p-4 rounded bg-gray-50 cursor-pointer">
                 <h2 class="font-bold text-blue-800 mb-2">SD335 Instrument</h2>
-                <div class="drop-zone">
-                    <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
-                    <input type="file" name="sd335_files" accept=".xlsx,.xls,.csv" class="hidden">
-                </div>
+                <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
+                <input type="file" name="sd335_files" accept=".xlsx,.xls,.csv" class="hidden">
             </div>
 
             <!-- MD610 -->
-            <div id="md610_field" class="hidden border p-4 rounded bg-gray-50">
+            <div id="md610_field" class="hidden border p-4 rounded bg-gray-50 cursor-pointer">
                 <h2 class="font-bold text-blue-800 mb-2">MD610 Instrument</h2>
-                <div class="drop-zone">
-                    <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
-                    <input type="file" name="md610_files" accept=".xlsx,.xls,.csv" class="hidden">
-                </div>
+                <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
+                <input type="file" name="md610_files" accept=".xlsx,.xls,.csv" class="hidden">
             </div>
 
             <!-- TB350 -->
-            <div id="tb350_field" class="hidden border p-4 rounded bg-gray-50">
+            <div id="tb350_field" class="hidden border p-4 rounded bg-gray-50 cursor-pointer">
                 <h2 class="font-bold text-blue-800 mb-2">TB350 Instrument</h2>
-                <div class="drop-zone">
-                    <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
-                    <input type="file" name="tb350_files" accept=".xlsx,.xls,.csv" class="hidden">
-                </div>
+                <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
+                <input type="file" name="tb350_files" accept=".xlsx,.xls,.csv" class="hidden">
             </div>
 
             <!-- SD400 Oxi L -->
-            <div id="sd400_field" class="hidden border p-4 rounded bg-gray-50">
+            <div id="sd400_field" class="hidden border p-4 rounded bg-gray-50 cursor-pointer">
                 <h2 class="font-bold text-blue-800 mb-2">SD400 Oxi L Instrument</h2>
-                <div class="drop-zone">
-                    <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
-                    <input type="file" name="sd400_oxi_l_field" accept=".xlsx,.xls,.csv" class="hidden">
-                </div>
+                <p class="text-gray-600">Drag & Drop file here or <span class="text-blue-600 font-semibold">Browse</span></p>
+                <input type="file" name="sd400_oxi_l_field" accept=".xlsx,.xls,.csv" class="hidden">
             </div>
 
             <!-- SD40 -->
@@ -325,9 +315,17 @@
 
                 </div>
 
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold">Upload SD40 Image</label>
-                    <input type="file" name="sd40_files" accept="image/*" class="w-full border rounded px-3 py-2">
+                <div class="mt-4 border-2 border-dashed border-gray-400 rounded-lg p-6 text-center bg-gray-50 hover:bg-gray-100 cursor-pointer" id="sd40_field">
+                    <label class="block text-sm font-semibold mb-2">Upload SD40 Image</label>
+                    <!-- Image icon -->
+                    <div class="flex flex-col items-center justify-center text-gray-400">
+                        <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v14a2 2 0 002 2h14a2 2 0 002-2V7M16 3v4M8 3v4M3 7h18M21 11l-6 6-4-4-6 6" />
+                        </svg>
+                        <p class="text-gray-600">Drag & Drop image here or <span class="text-blue-600 font-semibold">Browse</span></p>
+                        <small class="text-gray-400">Accepted: JPG, PNG, GIF</small>
+                    </div>
+                    <input type="file" name="sd40_files" accept="image/*" class="hidden">
                 </div>
             </div>
         </div>
@@ -455,28 +453,29 @@
 
 <!-- Common JS for All Drop Zones -->
 <script>
-    document.querySelectorAll(".drop-zone").forEach((dropZone) => {
-        const fileInput = dropZone.querySelector("input[type=file]");
-        const text = dropZone.querySelector("p");
+    // sabhi divs ke liye common logic
+    ["xd7500_field", "sd335_field", "md610_field", "tb350_field", "sd400_field", "sd40_field"].forEach(id => {
+        const div = document.getElementById(id);
+        const fileInput = div.querySelector("input[type=file]");
+        const text = div.querySelector("p");
 
-        // Click to open file dialog
-        dropZone.addEventListener("click", () => fileInput.click());
+        // click on whole div = open file chooser
+        div.addEventListener("click", () => fileInput.click());
 
-        // Highlight on drag over
-        dropZone.addEventListener("dragover", (e) => {
+        // drag over effect
+        div.addEventListener("dragover", (e) => {
             e.preventDefault();
-            dropZone.classList.add("bg-blue-50", "border-blue-400");
+            div.classList.add("bg-blue-50", "border-blue-400");
         });
 
-        // Remove highlight
-        dropZone.addEventListener("dragleave", () => {
-            dropZone.classList.remove("bg-blue-50", "border-blue-400");
+        div.addEventListener("dragleave", () => {
+            div.classList.remove("bg-blue-50", "border-blue-400");
         });
 
-        // Handle file drop
-        dropZone.addEventListener("drop", (e) => {
+        // drop file
+        div.addEventListener("drop", (e) => {
             e.preventDefault();
-            dropZone.classList.remove("bg-blue-50", "border-blue-400");
+            div.classList.remove("bg-blue-50", "border-blue-400");
 
             if (e.dataTransfer.files.length) {
                 fileInput.files = e.dataTransfer.files;
@@ -484,7 +483,7 @@
             }
         });
 
-        // Handle file selection (via browse)
+        // if file chosen from browse
         fileInput.addEventListener("change", () => {
             if (fileInput.files.length) {
                 text.textContent = fileInput.files[0].name;
