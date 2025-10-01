@@ -18,7 +18,9 @@ class uploadDataController extends Controller
 {
     public function viewUploadDataForm(Request $request)
     {
-        return view('aquarover-form');
+
+        $user = Auth::user();
+        return view('aquarover-form', compact('user'));
     }
 
     public function viewAllUploadData()

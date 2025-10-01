@@ -13,7 +13,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-semibold">Name*</label>
-                <input type="text" name="name" class="w-full border rounded px-3 py-2">
+                <input type="text" name="name" class="w-full border rounded px-3 py-2" value="{{ $user->name }}" readonly>
                 @error('name')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -36,7 +36,7 @@
             </div>
             <div>
                 <label class="block text-sm font-semibold">Email*</label>
-                <input type="email" name="email" class="w-full border rounded px-3 py-2">
+                <input type="email" name="email" class="w-full border rounded px-3 py-2" value="{{ $user->email }}" readonly>
                 @error('email')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
