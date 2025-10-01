@@ -11,6 +11,7 @@ use App\Models\AquaRoverFormData;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class uploadDataController extends Controller
@@ -34,40 +35,70 @@ class uploadDataController extends Controller
     public function importExcelData(Request $request)
     {
         //  dd($request->all());
-        // $request->validate([
-        //     'name' => 'required|string',
-        //     'tested_by' => 'required|string',
-        //     'mobile' => ['required', 'digits_between:10,12'],
-        //     'email' => 'required|email',
-        //     'address' => 'required|string',
-        //     'state' => 'required|string',
-        //     'city' => 'required|string',
-        //     'village' => 'required|string',
-        //     'latitude' => 'required',
-        //     'longitude' => 'required',
-        //     'location_screenShot' => 'required|image',
-        //     'sd40_files' => 'nullable|image',
-        //     'sample_type' => 'required|string',
-        //     'source_category' => 'required|string',
-        //     'date' => 'required|date',
-        //     'time' => 'required',
-        //     'instruments' => 'nullable|array',
-        //     'remarks' => 'required|string',
-        //     'captcha' => 'required|string',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'tested_by' => 'required|string',
+            'mobile' => ['required', 'digits:10'],
+            'email' => 'required|email',
+            'address' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'village' => 'required|string',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'sd40_files' => 'nullable|image',
+            'sample_type' => 'required|string',
+            'source_category' => 'required|string',
+            'date' => 'required|date',
+            'time' => 'required',
+            'instruments' => 'nullable|array',
+            'remarks' => 'required|string',
+            'captcha' => 'required|string',
 
-        //     // Validation For Excel and CSV files
-        //     'xd7500_files' => 'nullable|mimes:xlsx,xls,csv',
-        //     'sd335_files'  => 'nullable|mimes:xlsx,xls,csv',
-        //     'md610_files' => 'nullable|mimes:xlsx,xls,csv',
-        //     'sd400_oxi_l_field' => 'nullable|mimes:xlsx,xls,csv',
-        //     'tb350_files' => 'nullable|mimes:xlsx,xls,csv',
-        // ]);
+            // Validation For Excel and CSV files
+            'xd7500_files' => 'nullable|mimes:xlsx,xls,csv',
+            'sd335_files' => 'nullable|mimes:xlsx,xls,csv',
+            'md610_files' => 'nullable|mimes:xlsx,xls,csv',
+            'sd400_oxi_l_field' => 'nullable|mimes:xlsx,xls,csv',
+            'tb350_files' => 'nullable|mimes:xlsx,xls,csv',
+
+            // --- Validation for value + unit ---
+            'ph' => 'nullable|numeric',
+            'ph_unit' => 'nullable|in:pH,mV',
+            'temperature' => 'nullable|numeric',
+            'temperature_unit' => 'nullable|in:°C,°F',
+            'conductivity' => 'nullable|numeric',
+            'conductivity_unit' => 'nullable|in:μS/cm,mS/cm',
+            'tds' => 'nullable|numeric',
+            'tds_unit' => 'nullable|in:PPM,PPT',
+            'salinity' => 'nullable|numeric',
+            'salinity_unit' => 'nullable|in:PPT,PSU',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $userId = $request->user_id;
 
         $data = $request->all();
 
-        // dd( $data);
+        // --- Combine value + unit for instruments ---
+        $fieldsWithUnits = [
+            'ph' => 'ph_unit',
+            'temperature' => 'temperature_unit',
+            'conductivity' => 'conductivity_unit',
+            'tds' => 'tds_unit',
+            'salinity' => 'salinity_unit',
+        ];
+
+        foreach ($fieldsWithUnits as $field => $unitField) {
+            if ($request->has($field) && $request->has($unitField)) {
+                $data[$field] = $request->input($field) . ' ' . $request->input($unitField);
+            }
+        }
 
         $fileFields = ['location_screenShot', 'sd40_files'];
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\masterSheetExcelImport;
+use App\Models\AquaRoverFormData;
 use App\Models\MD610_Excel_Model;
 use App\Models\SD400_OXI_L_Excel_Model;
 use App\Models\XD7500_Excel_Model;
@@ -80,18 +81,46 @@ class dataExportController extends Controller
                 ->get();
         }
 
-        $max = max($xd7500->count(), $md610->count(), $sd400->count());
+        // SD40
+        if ($user && $user->role === 'admin') {
+            $sd40 = AquaRoverFormData::select('ph', 'temperature', 'conductivity', 'tds', 'salinity')
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        } else {
+            $sd40 = AquaRoverFormData::select('ph', 'temperature', 'conductivity', 'tds', 'salinity')
+                ->where('user_id', $user->id)
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        }
+
+        $max = max($xd7500->count(), $md610->count(), $sd400->count(), $sd40->count());
 
         for ($i = 0; $i < $max; $i++) {
             $mergeData[] = [
-                'method' => $xd7500[$i]->method ?? '',
-                'value' => $xd7500[$i]->value ?? '',
-                'unit' => $xd7500[$i]->unit ?? '',
-                'method_no' => $md610[$i]->method_no ?? '',
-                'method_name' => $md610[$i]->method_name ?? '',
-                'Result_1' => $md610[$i]->Result_1 ?? '',
-                'units_and_chemical_formula_1' => $md610[$i]->units_and_chemical_formula_1 ?? '',
-                'do_mg_l' => $sd400[$i]->do_mg_l ?? '',
+
+                // XD7500
+                'XD7500_method' => $xd7500[$i]->method ?? '',
+                'XD7500_value'  => $xd7500[$i]->value ?? '',
+                'XD7500_unit'   => $xd7500[$i]->unit ?? '',
+
+                // MD610
+                'MD610_method_no'   => $md610[$i]->method_no ?? '',
+                'MD610_method_name' => $md610[$i]->method_name ?? '',
+                'MD610_Result_1'    => $md610[$i]->Result_1 ?? '',
+                'MD610_units_and_chemical_formula_1' => $md610[$i]->units_and_chemical_formula_1 ?? '',
+
+                // SD400
+                'SD400_do_mg_l' => $sd400[$i]->do_mg_l ?? '',
+
+                // SD40
+                'SD40_ph' => $sd40[$i]->ph ?? '',
+                'SD40_temperature' => $sd40[$i]->temperature ?? '',
+                'SD40_conductivity' => $sd40[$i]->conductivity ?? '',
+                'SD40_tds' => $sd40[$i]->tds ?? '',
+                'SD40_salinity' => $sd40[$i]->salinity ?? '',
+
             ];
         }
 

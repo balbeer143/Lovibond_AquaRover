@@ -21,7 +21,6 @@
                     <th class="px-4 py-2">Village</th>
                     <th class="px-4 py-2">Latitude</th>
                     <th class="px-4 py-2">Longitude</th>
-                    <th class="px-4 py-2">Screenshot</th>
                     <th class="px-4 py-2">Sample Type</th>
                     <th class="px-4 py-2">Source Category</th>
                     <th class="px-4 py-2">Date</th>
@@ -50,20 +49,6 @@
                     <td class="px-4 py-2">{{ $formData->village ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->latitude ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->longitude ?? '-' }}</td>
-
-                    <!-- Screenshot Preview -->
-                    <td class="px-4 py-2">
-                        @if($formData->location_screenShot)
-                        <a href="{{ asset('storage/'.$formData->location_screenShot) }}" target="_blank">
-                            <img src="{{ asset('storage/'.$formData->location_screenShot) }}"
-                                alt="screenshot"
-                                class="w-16 h-16 object-cover rounded shadow">
-                        </a>
-                        @else
-                        -
-                        @endif
-                    </td>
-
                     <td class="px-4 py-2">{{ $formData->sample_type ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->source_category ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->date ?? '-' }}</td>

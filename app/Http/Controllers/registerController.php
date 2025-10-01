@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Mail;
 
 class registerController extends Controller
 {
-
     public function register()
     {
         return view('auth.register');
