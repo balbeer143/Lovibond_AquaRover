@@ -31,6 +31,7 @@ Route::post('/update-new-password', [loginController::class, 'updateNewPassword'
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'dashboardPage'])->name('dashboard');
     Route::post('/logout', [loginController::class, 'logout'])->name('logout');
+    Route::post('/update-profile', [loginController::class, 'updateProfile'])->name('update.profile');
     Route::get('/all-user', [userController::class, 'viewAllUser'])->name('all.user');
     Route::get('/uploadData', [uploadDataController::class, 'viewUploadDataForm'])->name('uploadData');
     Route::post('/importExcelData', [uploadDataController::class, 'importExcelData'])->name('importExcelData');

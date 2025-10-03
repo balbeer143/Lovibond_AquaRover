@@ -123,4 +123,23 @@ class loginController
 
         return redirect()->route('login')->with('success', 'Password updated successfully. Please login.');
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'contact_number' => 'nullable|string|max:20',
+            'designation' => 'nullable|string|max:100',
+        ]);
+
+        $user->name = $request->name;
+        $user->contact_number = $request->contact_number;
+        $user->designation = $request->designation;
+
+        $user->save();
+
+        return back()->with('success', 'Profile updated successfully!');
+    }
 }

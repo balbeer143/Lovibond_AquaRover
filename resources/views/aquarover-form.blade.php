@@ -21,7 +21,7 @@
             <input type="hidden" name="user_id" value="{{ Auth::id() }}">
             <div>
                 <label class="block text-sm font-semibold">Tested By*</label>
-                <input type="text" name="tested_by" class="block w-full border rounded px-3 py-2">
+                <input type="text" name="tested_by" class="block w-full border rounded px-3 py-2" value="{{ old('tested_by') }}">
                 @error('tested_by')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -29,7 +29,7 @@
             <div>
                 <label class="block text-sm font-semibold">Mobile No*</label>
                 <input type="tel" id="mobile" name="mobile" class="w-full border rounded px-3 py-2"
-                    value="{{ old('mobile') }}">
+                    value="{{ $user->contact_number }}">
                 @error('mobile')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -45,7 +45,7 @@
 
         <div>
             <label class="block text-sm font-semibold">Address*</label>
-            <textarea name="address" class="w-full border rounded px-3 py-2"></textarea>
+            <textarea name="address" class="w-full border rounded px-3 py-2">{{ old('address') }}</textarea>
             @error('address')
             <p class="text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -57,43 +57,44 @@
                 <label class="block text-sm font-semibold">State*</label>
                 <select name="state" class="w-full border rounded px-3 py-2">
                     <option value="">Select State</option>
-                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                    <option value="Assam">Assam</option>
-                    <option value="Bihar">Bihar</option>
-                    <option value="Chhattisgarh">Chhattisgarh</option>
-                    <option value="Goa">Goa</option>
-                    <option value="Gujarat">Gujarat</option>
-                    <option value="Haryana">Haryana</option>
-                    <option value="Himachal Pradesh">Himachal Pradesh</option>
-                    <option value="Jharkhand">Jharkhand</option>
-                    <option value="Karnataka">Karnataka</option>
-                    <option value="Kerala">Kerala</option>
-                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                    <option value="Manipur">Manipur</option>
-                    <option value="Meghalaya">Meghalaya</option>
-                    <option value="Mizoram">Mizoram</option>
-                    <option value="Nagaland">Nagaland</option>
-                    <option value="Odisha">Odisha</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Rajasthan">Rajasthan</option>
-                    <option value="Sikkim">Sikkim</option>
-                    <option value="Tamil Nadu">Tamil Nadu</option>
-                    <option value="Telangana">Telangana</option>
-                    <option value="Tripura">Tripura</option>
-                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                    <option value="Uttarakhand">Uttarakhand</option>
-                    <option value="West Bengal">West Bengal</option>
-                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                    <option value="Chandigarh">Chandigarh</option>
-                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                    <option value="Ladakh">Ladakh</option>
-                    <option value="Lakshadweep">Lakshadweep</option>
-                    <option value="Puducherry">Puducherry</option>
+                    <option value="Andhra Pradesh" {{ old('state') == 'Andhra Pradesh' ? 'selected' : '' }}>Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh" {{ old('state') == 'Arunachal Pradesh' ? 'selected' : '' }}>Arunachal Pradesh</option>
+                    <option value="Assam" {{ old('state') == 'Assam' ? 'selected' : '' }}>Assam</option>
+                    <option value="Bihar" {{ old('state') == 'Bihar' ? 'selected' : '' }}>Bihar</option>
+                    <option value="Chhattisgarh" {{ old('state') == 'Chhattisgarh' ? 'selected' : '' }}>Chhattisgarh</option>
+                    <option value="Goa" {{ old('state') == 'Goa' ? 'selected' : '' }}>Goa</option>
+                    <option value="Gujarat" {{ old('state') == 'Gujarat' ? 'selected' : '' }}>Gujarat</option>
+                    <option value="Haryana" {{ old('state') == 'Haryana' ? 'selected' : '' }}>Haryana</option>
+                    <option value="Himachal Pradesh" {{ old('state') == 'Himachal Pradesh' ? 'selected' : '' }}>Himachal Pradesh</option>
+                    <option value="Jharkhand" {{ old('state') == 'Jharkhand' ? 'selected' : '' }}>Jharkhand</option>
+                    <option value="Karnataka" {{ old('state') == 'Karnataka' ? 'selected' : '' }}>Karnataka</option>
+                    <option value="Kerala" {{ old('state') == 'Kerala' ? 'selected' : '' }}>Kerala</option>
+                    <option value="Madhya Pradesh" {{ old('state') == 'Madhya Pradesh' ? 'selected' : '' }}>Madhya Pradesh</option>
+                    <option value="Maharashtra" {{ old('state') == 'Maharashtra' ? 'selected' : '' }}>Maharashtra</option>
+                    <option value="Manipur" {{ old('state') == 'Manipur' ? 'selected' : '' }}>Manipur</option>
+                    <option value="Meghalaya" {{ old('state') == 'Meghalaya' ? 'selected' : '' }}>Meghalaya</option>
+                    <option value="Mizoram" {{ old('state') == 'Mizoram' ? 'selected' : '' }}>Mizoram</option>
+                    <option value="Nagaland" {{ old('state') == 'Nagaland' ? 'selected' : '' }}>Nagaland</option>
+                    <option value="Odisha" {{ old('state') == 'Odisha' ? 'selected' : '' }}>Odisha</option>
+                    <option value="Punjab" {{ old('state') == 'Punjab' ? 'selected' : '' }}>Punjab</option>
+                    <option value="Rajasthan" {{ old('state') == 'Rajasthan' ? 'selected' : '' }}>Rajasthan</option>
+                    <option value="Sikkim" {{ old('state') == 'Sikkim' ? 'selected' : '' }}>Sikkim</option>
+                    <option value="Tamil Nadu" {{ old('state') == 'Tamil Nadu' ? 'selected' : '' }}>Tamil Nadu</option>
+                    <option value="Telangana" {{ old('state') == 'Telangana' ? 'selected' : '' }}>Telangana</option>
+                    <option value="Tripura" {{ old('state') == 'Tripura' ? 'selected' : '' }}>Tripura</option>
+                    <option value="Uttar Pradesh" {{ old('state') == 'Uttar Pradesh' ? 'selected' : '' }}>Uttar Pradesh</option>
+                    <option value="Uttarakhand" {{ old('state') == 'Uttarakhand' ? 'selected' : '' }}>Uttarakhand</option>
+                    <option value="West Bengal" {{ old('state') == 'West Bengal' ? 'selected' : '' }}>West Bengal</option>
+                    <option value="Andaman and Nicobar Islands" {{ old('state') == 'Andaman and Nicobar Islands' ? 'selected' : '' }}>Andaman and Nicobar Islands</option>
+                    <option value="Chandigarh" {{ old('state') == 'Chandigarh' ? 'selected' : '' }}>Chandigarh</option>
+                    <option value="Dadra and Nagar Haveli and Daman and Diu" {{ old('state') == 'Dadra and Nagar Haveli and Daman and Diu' ? 'selected' : '' }}>Dadra and Nagar Haveli and Daman and Diu</option>
+                    <option value="Delhi" {{ old('state') == 'Delhi' ? 'selected' : '' }}>Delhi</option>
+                    <option value="Jammu and Kashmir" {{ old('state') == 'Jammu and Kashmir' ? 'selected' : '' }}>Jammu and Kashmir</option>
+                    <option value="Ladakh" {{ old('state') == 'Ladakh' ? 'selected' : '' }}>Ladakh</option>
+                    <option value="Lakshadweep" {{ old('state') == 'Lakshadweep' ? 'selected' : '' }}>Lakshadweep</option>
+                    <option value="Puducherry" {{ old('state') == 'Puducherry' ? 'selected' : '' }}>Puducherry</option>
                 </select>
+
                 @error('state')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -102,7 +103,7 @@
             <div>
                 <label class="block text-sm font-semibold">City*</label>
                 <input type="text" id="city" name="city" placeholder="Enter City"
-                    class="w-full border rounded px-3 py-2">
+                    class="w-full border rounded px-3 py-2" value="{{ old('city') }}">
                 @error('city')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -112,7 +113,7 @@
             <div>
                 <label class="block text-sm font-semibold">Town / Village*</label>
                 <input type="text" id="village" name="village" placeholder="Enter Town / Village"
-                    class="w-full border rounded px-3 py-2">
+                    class="w-full border rounded px-3 py-2" value="{{ old('village') }}">
                 @error('village')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -148,11 +149,11 @@
         <div>
             <label class="block text-sm font-semibold">Sample Type*</label>
             <select name="sample_type" class="w-full border rounded px-3 py-2">
-                <option value="Domestic">Domestic</option>
-                <option value="Commercial">Commercial</option>
-                <option value="Industrial">Industrial</option>
-                <option value="Institutional">Institutional</option>
-                <option value="Govt">Govt</option>
+                <option value="Domestic" {{ old('sample_type') == 'Domestic' ? 'selected' : '' }}>Domestic</option>
+                <option value="Commercial" {{ old('sample_type') == 'Commercial' ? 'selected' : '' }}>Commercial</option>
+                <option value="Industrial" {{ old('sample_type') == 'Industrial' ? 'selected' : '' }}>Industrial</option>
+                <option value="Institutional" {{ old('sample_type') == 'Institutional' ? 'selected' : '' }}>Institutional</option>
+                <option value="Govt" {{ old('sample_type') == 'Govt' ? 'selected' : '' }}>Govt</option>
             </select>
             @error('sample_type')
             <p class="text-sm text-red-600">{{ $message }}</p>
@@ -163,16 +164,16 @@
         <div>
             <label class="block text-sm font-semibold">Source of Water*</label>
             <select name="source_category" class="w-full border rounded px-3 py-2">
-                <option value="Anganwadi">Anganwadi</option>
-                <option value="School">School</option>
-                <option value="House">House</option>
-                <option value="Public Tap">Public Tap</option>
-                <option value="Govt Buildings">Govt Buildings</option>
-                <option value="Tube Well">Tube Well</option>
-                <option value="Hand Pump">Hand Pump</option>
-                <option value="Pond">Pond</option>
-                <option value="Spring">Spring</option>
-                <option value="Other">Other</option>
+                <option value="Anganwadi" {{ old('source_category') == 'Anganwadi' ? 'selected' : '' }}>Anganwadi</option>
+                <option value="School" {{ old('source_category') == 'School' ? 'selected' : '' }}>School</option>
+                <option value="House" {{ old('source_category') == 'House' ? 'selected' : '' }}>House</option>
+                <option value="Public Tap" {{ old('source_category') == 'Public Tap' ? 'selected' : '' }}>Public Tap</option>
+                <option value="Govt Buildings" {{ old('source_category') == 'Govt Buildings' ? 'selected' : '' }}>Govt Buildings</option>
+                <option value="Tube Well" {{ old('source_category') == 'Tube Well' ? 'selected' : '' }}>Tube Well</option>
+                <option value="Hand Pump" {{ old('source_category') == 'Hand Pump' ? 'selected' : '' }}>Hand Pump</option>
+                <option value="Pond" {{ old('source_category') == 'Pond' ? 'selected' : '' }}>Pond</option>
+                <option value="Spring" {{ old('source_category') == 'Spring' ? 'selected' : '' }}>Spring</option>
+                <option value="Other" {{ old('source_category') == 'Other' ? 'selected' : '' }}>Other</option>
             </select>
             @error('source_category')
             <p class="text-sm text-red-600">{{ $message }}</p>
@@ -183,14 +184,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-semibold">Date*</label>
-                <input type="date" name="date" class="w-full border rounded px-3 py-2">
+                <input type="date" name="date" class="w-full border rounded px-3 py-2" value="{{ old('date') }}">
                 @error('date')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
             <div>
                 <label class="block text-sm font-semibold">Time*</label>
-                <input type="time" name="time" class="w-full border rounded px-3 py-2">
+                <input type="time" name="time" class="w-full border rounded px-3 py-2" value="{{ old('time') }}">
                 @error('time')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -257,7 +258,7 @@
                     <div>
                         <label class="block text-sm font-semibold">pH:</label>
                         <div class="flex">
-                            <input type="text" name="ph" class="border rounded-l px-2 py-1 w-full">
+                            <input type="text" name="ph" class="border rounded-l px-2 py-1 w-full" value="{{ old('ph') }}">
                             <select name="ph_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="pH">pH</option>
                                 <option value="mV">mV</option>
@@ -269,7 +270,7 @@
                     <div>
                         <label class="block text-sm font-semibold">Temperature:</label>
                         <div class="flex">
-                            <input type="text" name="temperature" class="border rounded-l px-2 py-1 w-full">
+                            <input type="text" name="temperature" class="border rounded-l px-2 py-1 w-full" value="{{ old('temperature') }}">
                             <select name="temperature_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="°C">°C</option>
                                 <option value="°F">°F</option>
@@ -281,7 +282,7 @@
                     <div>
                         <label class="block text-sm font-semibold">Conductivity:</label>
                         <div class="flex">
-                            <input type="text" name="conductivity" class="border rounded-l px-2 py-1 w-full">
+                            <input type="text" name="conductivity" class="border rounded-l px-2 py-1 w-full" value="{{ old('conductivity') }}">
                             <select name="conductivity_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="μS/cm">μS/cm</option>
                                 <option value="mS/cm">mS/cm</option>
@@ -293,7 +294,7 @@
                     <div>
                         <label class="block text-sm font-semibold">TDS:</label>
                         <div class="flex">
-                            <input type="text" name="tds" class="border rounded-l px-2 py-1 w-full">
+                            <input type="text" name="tds" class="border rounded-l px-2 py-1 w-full" value="{{ old('tds') }}">
                             <select name="tds_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="PPM">PPM</option>
                                 <option value="PPT">PPT</option>
@@ -305,7 +306,7 @@
                     <div>
                         <label class="block text-sm font-semibold">Salinity:</label>
                         <div class="flex">
-                            <input type="text" name="salinity" class="border rounded-l px-2 py-1 w-full">
+                            <input type="text" name="salinity" class="border rounded-l px-2 py-1 w-full" value="{{ old('salinity') }}">
                             <select name="salinity_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="PPT">PPT</option>
                                 <option value="PSU">PSU</option>
@@ -333,20 +334,19 @@
         <!-- Remarks -->
         <div>
             <label class="block text-sm font-semibold">Remarks*</label>
-            <textarea name="remarks" class="w-full border rounded px-3 py-2"></textarea>
+            <textarea name="remarks" class="w-full border rounded px-3 py-2">{{ old('remarks') }}</textarea>
             @error('remarks')
             <p class="text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
 
-        <!-- Captcha -->
-        <div>
-            <label class="block text-sm font-semibold">Captcha*</label>
-            <input type="text" name="captcha" placeholder="Enter Captcha" class="w-full border rounded px-3 py-2">
-            @error('captcha')
-            <p class="text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+        {{-- Google reCAPTCHA --}}
+        {!! NoCaptcha::renderJs() !!}
+        {!! NoCaptcha::display() !!}
+
+        @error('g-recaptcha-response')
+        <span class="text-red-500">{{ $message }}</span>
+        @enderror
 
         <!-- Submit -->
         <div class="text-right mt-6">
@@ -384,6 +384,7 @@
             initialCountry: "in", // Default India
             separateDialCode: true, // Show +91 separately
             preferredCountries: ["in", "us", "gb"],
+            autoFormat: false,
         });
     });
 </script>

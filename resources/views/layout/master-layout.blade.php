@@ -23,19 +23,20 @@
     <!-- intl-tel-input JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <style>
         .iti {
-            display: block!important;
+            display: block !important;
         }
+
         /* .iti-mobile .iti__country-list {
             width: 30%!important;
         } */
     </style>
 </head>
 
-<body class="bg-[#F7F7F7] min-h-screen flex flex-col">
+<body class="bg-[#F7F7F7] min-h-screen flex flex-col" x-data="{ openProfileModal: false }">
 
     <!-- Backdrop (for sidebar) -->
     <div id="backdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"
@@ -140,21 +141,64 @@
                             <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5z"></path>
                             <path d="M4 20c0-4 4-7 8-7s8 3 8 7"></path>
                         </svg>
-                        {{ Auth::user()->name }}
                     </button>
                     <!-- Dropdown -->
-                    <!-- <div id="userMenu" class="hidden absolute right-0 mt-2 w-70 bg-white text-black rounded shadow-lg">
-                        <div class="p-4 border-b overflow-hidden">
-                            <p class="font-semibold">{{ Auth::user()->name }}</p>
-                            <p class="text-sm text-gray-600">{{ Auth::user()->email }}</p>
+                    <div id="userMenu" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl z-50 border border-gray-200 overflow-hidden">
+
+                        <!-- Avatar + Name + Email -->
+                        <div class="bg-gray-50 p-5 flex flex-col items-center gap-2 border-b border-gray-200">
+                            <div class="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 text-xl font-bold">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1) . substr(strstr(Auth::user()->name, ' '), 1, 1)) }}
+                            </div>
+                            <p class="font-bold text-gray-800 text-lg">{{ Auth::user()->name }}</p>
+                            <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
                         </div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">
-                                Logout
-                            </button>
-                        </form>
-                    </div> -->
+
+                        <!-- Contact Info Section -->
+                        <div class="p-5 border-b border-gray-200 space-y-3">
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Contact Number</p>
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M2 5a2 2 0 012-2h1.5a.5.5 0 010 1H4a1 1 0 00-1 1v10a1 1 0 001 1h1.5a.5.5 0 010 1H4a2 2 0 01-2-2V5z" />
+                                        <path d="M14.854 7.146a.5.5 0 00-.708.708l1.646 1.647H7.5a.5.5 0 000 1h8.292l-1.646 1.646a.5.5 0 00.708.708l2.5-2.5a.5.5 0 000-.708l-2.5-2.5z" />
+                                    </svg>
+                                    <p class="text-gray-700 text-sm">{{ Auth::user()->contact_number ?? 'N/A' }}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Designation</p>
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 2a5 5 0 00-5 5v1a5 5 0 0010 0V7a5 5 0 00-5-5zM4 12a4 4 0 018 0v1H4v-1zM2 16a2 2 0 012-2h12a2 2 0 012 2v1H2v-1z" />
+                                    </svg>
+                                    <p class="text-gray-700 text-sm">{{ Auth::user()->designation ?? 'N/A' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Update Profile Button Section -->
+                        <div class="p-5 border-b border-gray-200">
+                            <a href="javascript:void(0)" @click="openProfileModal = true"
+                                class="w-full text-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 hover:shadow-md transition duration-200">
+                                Update Profile
+                            </a>
+                        </div>
+
+                        <!-- Logout Button Section -->
+                        <div class="p-5">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-center px-4 py-2 border border-red-600 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition duration-200">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
                 </div>
             </header>
 
@@ -167,6 +211,68 @@
             <footer class="bg-white shadow p-4 text-center text-gray-600">
                 &copy; {{ date('Y') }} AquaRover. All Rights Reserved.
             </footer>
+        </div>
+    </div>
+
+    <!-- Pop up form -->
+
+    <!-- Wrapper with Alpine -->
+    <div>
+
+        <!-- Profile Update Modal -->
+        <div x-show="openProfileModal" x-cloak
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+
+            <div @click.away="openProfileModal = false"
+                class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center border-b pb-2">
+                    <h2 class="text-lg font-semibold text-gray-800">Update Profile</h2>
+                    <button @click="openProfileModal = false"
+                        class="text-gray-500 hover:text-gray-700 text-xl leading-none">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- Form -->
+                <form method="POST" action="{{ route('update.profile') }}" class="space-y-4">
+                    @csrf
+
+                    <!-- Contact Number -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                        <input type="text" name="name" value="{{ Auth::user()->name }}"
+                            class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                    </div>
+
+                    <!-- Contact Number -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                        <input type="text" name="contact_number" value="{{ Auth::user()->contact_number }}"
+                            class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                    </div>
+
+                    <!-- Designation -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Designation</label>
+                        <input type="text" name="designation" value="{{ Auth::user()->designation }}"
+                            class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="button" @click="openProfileModal = false"
+                            class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

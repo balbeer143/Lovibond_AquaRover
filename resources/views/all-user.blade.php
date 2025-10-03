@@ -13,6 +13,8 @@
                     <th class="px-4 py-2">User ID</th>
                     <th class="px-4 py-2">Name</th>
                     <th class="px-4 py-2">Email</th>
+                    <th class="px-4 py-2">Mobile Number</th>
+                    <th class="px-4 py-2">Designation</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +23,8 @@
                         <td class="px-4 py-2">{{ $index + 1 }}</td>
                         <td class="px-4 py-2">{{ $user->name }}</td>
                         <td class="px-4 py-2">{{ $user->email }}</td>
+                        <td class="px-4 py-2">{{ $user->contact_number }}</td>
+                        <td class="px-4 py-2">{{ $user->designation }}</td>
                     </tr>
                 @endforeach
             </tbody>

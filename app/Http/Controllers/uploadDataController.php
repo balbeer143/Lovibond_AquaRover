@@ -36,7 +36,11 @@ class uploadDataController extends Controller
 
     public function importExcelData(Request $request)
     {
-        //  dd($request->all());
+        // dd($request->all());
+        $request->merge([
+            'mobile' => preg_replace('/\s+/', '', $request->mobile),
+        ]);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'tested_by' => 'required|string',
@@ -55,7 +59,6 @@ class uploadDataController extends Controller
             'time' => 'required',
             'instruments' => 'nullable|array',
             'remarks' => 'required|string',
-            'captcha' => 'required|string',
 
             // Validation For Excel and CSV files
             'xd7500_files' => 'nullable|mimes:xlsx,xls,csv',
@@ -75,6 +78,9 @@ class uploadDataController extends Controller
             'tds_unit' => 'nullable|in:PPM,PPT',
             'salinity' => 'nullable|numeric',
             'salinity_unit' => 'nullable|in:PPT,PSU',
+
+            // google recaptcha
+            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         if ($validator->fails()) {
@@ -102,7 +108,7 @@ class uploadDataController extends Controller
             }
         }
 
-        $fileFields = ['location_screenShot', 'sd40_files'];
+        $fileFields = ['sd40_files'];
 
         foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
