@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password | Lovibond AquaRover</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
 </head>
 
 <body class="bg-[#002C51] flex items-center justify-center min-h-screen">
@@ -23,21 +24,26 @@
 
         <form action="{{ route('update.new.password') }}" method="POST" class="space-y-5">
             @csrf
-            <input type="hidden" name="email" value="{{ $email }}">
 
-            <div>
+            <div class="relative">
                 <label for="password" class="block text-gray-700 font-medium mb-1">New Password</label>
                 <input type="password" name="password" id="password" placeholder="New Password"
                     class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#F07815]" required>
+                    <span class="password-toggle absolute right-3 top-9 cursor-pointer text-gray-500">
+                    <i class="fa-solid fa-eye-slash"></i>
+                </span>
                 @error('password')
                 <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div>
+            <div class="relative">
                 <label for="password_confirmation" class="block text-gray-700 font-medium mb-1">Confirm Password</label>
                 <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password"
                     class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#F07815]" required>
+                    <span class="password-toggle absolute right-3 top-9 cursor-pointer text-gray-500">
+                    <i class="fa-solid fa-eye-slash"></i>
+                </span>
             </div>
 
             <button type="submit"
@@ -51,6 +57,27 @@
             <a href="{{ route('login') }}" class="text-[#F07815] font-semibold hover:underline">Login</a>
         </p>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.password-toggle').forEach(function(toggle) {
+                toggle.addEventListener('click', function() {
+                    const input = this.previousElementSibling; // nearest password input
+                    const icon = this.querySelector('i');
+
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

@@ -37,12 +37,17 @@ class registerController extends Controller
             'otp' => $otp,
             'is_verified' => false,
         ]);
-        
+
         // Send OTP via Mail
         Mail::to($user->email)->send(new SendOtpMail($otp));
 
+        session([
+            'otp_email' => $user->email,
+            'form_name' => 'register'
+        ]);
+
         // Redirect to OTP verification page
-        return redirect()->route('verify.otp', ['email' => $user->email, 'formName' => 'register'])
+        return redirect()->route('verify.otp')
             ->with('success', 'Registration successful! Please check your email for the OTP.');
     }
 }

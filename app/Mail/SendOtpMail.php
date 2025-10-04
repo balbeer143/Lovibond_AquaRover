@@ -15,13 +15,15 @@ class SendOtpMail extends Mailable
 
     public $otp;
     public $isResend;
+    public $isForgotPassword;
     /**
      * Create a new message instance.
      */
-    public function __construct($otp, $isResend = false)
+    public function __construct($otp, $isResend = false, $isForgotPassword = false)
     {
         $this->otp = $otp;
         $this->isResend = $isResend;
+        $this->isForgotPassword = $isForgotPassword;
     }
 
     /**
@@ -30,9 +32,13 @@ class SendOtpMail extends Mailable
     public function envelope(): Envelope
     {
 
-        $subject = $this->isResend 
-            ? 'Your Resent OTP Code - AquaRover'
-            : 'Your OTP Code - AquaRover';
+        if ($this->isForgotPassword) {
+            $subject = 'Password Reset OTP - AquaRover';
+        } elseif ($this->isResend) {
+            $subject = 'Your Resent OTP Code - AquaRover';
+        } else {
+            $subject = 'Your OTP Code - AquaRover';
+        }
 
         return new Envelope(
             subject: $subject,
@@ -49,6 +55,7 @@ class SendOtpMail extends Mailable
             with: [
                 'otp' => $this->otp,
                 'isResend' => $this->isResend,
+                'isForgotPassword' => $this->isForgotPassword,
             ],
         );
     }

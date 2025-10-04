@@ -10,8 +10,17 @@ use Illuminate\Support\Facades\Mail;
 
 class verifyOtpController extends Controller
 {
-    public function showVerifyPage($email, $formName)
+    public function showVerifyPage()
     {
+
+        // Check if session exists
+        if (!session()->has('otp_email') || !session()->has('form_name')) {
+            return redirect()->route('login')->with('error', 'Unauthorized access.');
+        }
+
+        $email = session('otp_email');
+        $formName = session('form_name');
+
         return view('auth.otp-verification', compact('email', 'formName'));
     }
 
@@ -21,10 +30,12 @@ class verifyOtpController extends Controller
         $request->validate([
             'email' => 'required|email',
             'otp'   => 'required|digits:6',
-            'formName' => 'required'
         ]);
 
-        $user = User::Where('email', $request->email)
+        $email = session('otp_email');
+        $formName = session('form_name');
+
+        $user = User::Where('email', $email)
             ->Where('otp', $request->otp)
             ->first();
 
@@ -34,8 +45,8 @@ class verifyOtpController extends Controller
 
         $user->otp = null; // clear OTP
 
-        if ($request->formName === 'register') {
-            
+        if ($formName === 'register') {
+
             // Mark user as verified
             $user->is_verified = true;
             $user->save();
@@ -46,8 +57,17 @@ class verifyOtpController extends Controller
             return redirect()->route('dashboard')->with('success', 'Successfully logged in!');
         }
 
-        if ($request->formName === 'reset') {
-            return redirect()->route('reset.new.password', ['email' => $user->email])
+        if ($formName === 'reset') {
+
+            $user->save();
+
+            session(['reset_email' => $email]);
+
+            // Clear OTP session
+            session()->forget('otp_email');
+            session()->forget('form_name');
+
+            return redirect()->route('reset.new.password')
                 ->with('success', 'OTP verified! You can now reset your password.');
         }
     }

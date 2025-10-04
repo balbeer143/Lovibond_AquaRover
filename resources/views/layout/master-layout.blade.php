@@ -25,14 +25,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
     <style>
         .iti {
             display: block !important;
         }
 
-        /* .iti-mobile .iti__country-list {
-            width: 30%!important;
-        } */
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -117,7 +123,7 @@
         </div>
 
         <!-- Content Area -->
-        <div class="flex-1 flex flex-col md:ml-64">
+        <div class="flex-1 flex flex-col md:ml-64 overflow-hidden">
 
             <!-- Global Header -->
             <header class="flex items-center justify-between bg-white shadow p-4">
@@ -218,7 +224,6 @@
 
     <!-- Wrapper with Alpine -->
     <div>
-
         <!-- Profile Update Modal -->
         <div x-show="openProfileModal" x-cloak
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -275,6 +280,23 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Date picker
+        const datePicker = flatpickr("#date", {
+            dateFormat: "Y-m-d",
+            allowInput: true,
+        });
+
+        // Time picker
+        const timePicker = flatpickr("#time", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            allowInput: true,
+        });
+    </script>
 
     <!-- Toastr + Scripts -->
     <script>

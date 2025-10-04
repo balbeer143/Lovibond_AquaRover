@@ -18,14 +18,6 @@
             {{ $user->role === 'admin' ? 'Total number of forms submitted by all users' : 'Number of forms you have submitted' }}
         </p>
     </div>
-
-    <!-- Icon -->
-    <div class="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 to-blue-700 text-white shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 12v6m0 0l-3-3m3 3l3-3" />
-        </svg>
-    </div>
 </div>
 
 

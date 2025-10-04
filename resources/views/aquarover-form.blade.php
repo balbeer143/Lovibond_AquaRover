@@ -180,22 +180,26 @@
             @enderror
         </div>
 
-        <!-- Date & Time -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label class="block text-sm font-semibold">Date*</label>
-                <input type="date" name="date" class="w-full border rounded px-3 py-2" value="{{ old('date') }}">
+
+            <!-- Date -->
+            <div class="cursor-pointer w-full" onclick="datePicker.open()">
+                <label class="block text-sm font-semibold mb-1">Date*</label>
+                <input id="date" type="text" name="date" class="w-full border rounded px-3 py-2" placeholder="Select Date" value="{{ old('date') }}">
                 @error('date')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
-            <div>
-                <label class="block text-sm font-semibold">Time*</label>
-                <input type="time" name="time" class="w-full border rounded px-3 py-2" value="{{ old('time') }}">
+
+            <!-- Time -->
+            <div class="cursor-pointer w-full" onclick="timePicker.open()">
+                <label class="block text-sm font-semibold mb-1">Time*</label>
+                <input id="time" type="text" name="time" class="w-full border rounded px-3 py-2" placeholder="Select Time" value="{{ old('time') }}">
                 @error('time')
                 <p class="text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
+
         </div>
 
         <!-- Instruments -->
@@ -316,7 +320,7 @@
 
                 </div>
 
-                <div class="mt-4 border-2 border-dashed border-gray-400 rounded-lg p-6 text-center bg-gray-50 hover:bg-gray-100 cursor-pointer" id="sd40_field">
+                <div class="mt-4 border-2 border-dashed border-gray-400 rounded-lg p-6 text-center bg-gray-50 hover:bg-gray-100 cursor-pointer" id="sd40_image">
                     <label class="block text-sm font-semibold mb-2">Upload SD40 Image</label>
                     <!-- Image icon -->
                     <div class="flex flex-col items-center justify-center text-gray-400">
@@ -455,7 +459,7 @@
 <!-- Common JS for All Drop Zones -->
 <script>
     // sabhi divs ke liye common logic
-    ["xd7500_field", "sd335_field", "md610_field", "tb350_field", "sd400_field", "sd40_field"].forEach(id => {
+    ["xd7500_field", "sd335_field", "md610_field", "tb350_field", "sd400_field", "sd40_image"].forEach(id => {
         const div = document.getElementById(id);
         const fileInput = div.querySelector("input[type=file]");
         const text = div.querySelector("p");
@@ -492,8 +496,5 @@
         });
     });
 </script>
-
-
-
 
 @endsection

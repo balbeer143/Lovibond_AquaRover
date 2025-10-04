@@ -2,34 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Your OTP Code</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
 </head>
-<body class="bg-gradient-to-r from-[#002C51] to-[#004080] flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full text-center p-10 border-t-8 border-[#F07815]">
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin:0; padding:0;">
+    <div style="max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        
         <!-- Header -->
-        <h3 class="text-3xl font-extrabold text-[#002C51] mb-6">AquaRover OTP Verification</h3>
-        <p class="text-gray-700 mb-3">Hello!</p>
+        <div style="background: #F07815; color: #fff; text-align: center; padding: 20px;">
+            <h1 style="margin: 0; font-size: 24px;">AquaRover</h1>
+        </div>
 
-        <!-- Dynamic OTP message -->
-        @if($isResend)
-            <p class="text-gray-700 mb-5 text-lg">You requested a new OTP. Here it is:</p>
-        @else
-            <p class="text-gray-700 mb-5 text-lg">Your OTP for login is:</p>
-        @endif
+        <!-- Content -->
+        <div style="padding: 30px; text-align: center;">
+            
+            @if($isForgotPassword)
+                <p style="color:#333; font-size:16px; margin-bottom:20px;">
+                    You requested to reset your password. Please use the OTP below:
+                </p>
+            @elseif($isResend)
+                <p style="color:#333; font-size:16px; margin-bottom:20px;">
+                    You requested a new OTP. Here it is:
+                </p>
+            @else
+                <p style="color:#333; font-size:16px; margin-bottom:20px;">
+                    Your OTP for login/registration is:
+                </p>
+            @endif
 
-        <!-- OTP Number -->
-        <h2 class="text-5xl font-bold text-[#F07815] mb-6 tracking-widest">{{ $otp }}</h2>
+            <h2 style="font-size: 40px; font-weight: bold; color: #F07815; margin: 20px 0;">
+                {{ $otp }}
+            </h2>
 
-        <!-- OTP validity -->
-        <p class="text-gray-500 text-sm mb-3">This OTP is valid for 10 minutes.</p>
+            <p style="color:#666; font-size:14px; margin-top:30px;">
+                This OTP is valid for <strong>10 minutes</strong>.  
+                Do not share it with anyone for security reasons.
+            </p>
+        </div>
 
-        <!-- Footer note -->
-        <p class="text-gray-400 text-xs">If you did not request this, please ignore this email.</p>
-
-        <!-- Optional Button -->
-        <div class="mt-6">
-            <a href="#" class="inline-block bg-[#F07815] text-white px-6 py-2 rounded-full font-semibold shadow hover:bg-[#d96611] transition duration-300">Go to AquaRover</a>
+        <!-- Footer -->
+        <div style="background: #f4f4f4; text-align: center; padding: 15px; font-size: 12px; color: #777;">
+            &copy; {{ date('Y') }} AquaRover. All rights reserved.
         </div>
     </div>
 </body>

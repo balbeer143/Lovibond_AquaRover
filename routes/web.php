@@ -14,25 +14,28 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [registerController::class, 'register'])->name('register');
 Route::post('/register/save', [registerController::class, 'registerSave'])->name('register.save');
 
-Route::get('/verify-otp/{email}/{formName}', [verifyOtpController::class, 'showVerifyPage'])->name('verify.otp');
-Route::post('/verify-otp', [VerifyOtpController::class, 'verifyOtp'])->name('verify.otp.post');
-Route::get('/resend-otp/{email}', [VerifyOtpController::class, 'resendOtp'])->name('resend.otp');
-
-
 Route::get('/login', [loginController::class, 'login'])->name('login');
 Route::post('/login/user', [loginController::class, 'userlogin'])->name('user.login');
 
 Route::get('/reset-password', [loginController::class, 'showResetPassword'])->name('reset.password');
 Route::post('/reset-password/send-otp', [loginController::class, 'resetPasswordSendOtp'])->name('reset.password.send.otp');
 
-Route::get('/reset-new-password/{email}', [loginController::class, 'resetNewPassword'])->name('reset.new.password');
+Route::get('/verify-otp', [verifyOtpController::class, 'showVerifyPage'])->name('verify.otp');
+Route::post('/verify-otp', [VerifyOtpController::class, 'verifyOtp'])->name('verify.otp.post');
+Route::get('/resend-otp/{email}', [VerifyOtpController::class, 'resendOtp'])->name('resend.otp');
+
+Route::get('/reset-new-password', [loginController::class, 'resetNewPassword'])->name('reset.new.password');
 Route::post('/update-new-password', [loginController::class, 'updateNewPassword'])->name('update.new.password');
 
-Route::middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware('authenticate')->group(function () {
+    Route::get('/all-user', [userController::class, 'viewAllUser'])->name('all.user');
+});
+
+Route::middleware(['authenticate'])->group(function () {
     Route::get('/dashboard', [dashboardController::class, 'dashboardPage'])->name('dashboard');
     Route::post('/logout', [loginController::class, 'logout'])->name('logout');
     Route::post('/update-profile', [loginController::class, 'updateProfile'])->name('update.profile');
-    Route::get('/all-user', [userController::class, 'viewAllUser'])->name('all.user');
+    
     Route::get('/uploadData', [uploadDataController::class, 'viewUploadDataForm'])->name('uploadData');
     Route::post('/importExcelData', [uploadDataController::class, 'importExcelData'])->name('importExcelData');
     Route::get('/show-form-data', [uploadDataController::class, 'viewAllUploadData'])->name('show.form.data');

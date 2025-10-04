@@ -48,7 +48,12 @@ class loginController
             // Send OTP email
             Mail::to($user->email)->send(new SendOtpMail($otp, true));
 
-            return redirect()->route('verify.otp', ['email' => $user->email, 'formName' => 'register'])
+            session([
+                'otp_email' => $request->email,
+                'form_name' => 'register'
+            ]);
+
+            return redirect()->route('verify.otp')
                 ->withErrors(['email' => 'Please verify your email before logging in.']);
         }
 
@@ -93,33 +98,41 @@ class loginController
 
 
         // Send OTP email
-        Mail::to($user->email)->send(new SendOtpMail($otp));
+        Mail::to($user->email)->send(new SendOtpMail($otp, false, true));
 
-        return redirect()->route('verify.otp', ['email' => $request->email, 'formName' => $request->formName])
+        session([
+            'otp_email' => $request->email,
+            'form_name' => $request->formName
+        ]);
+
+        return redirect()->route('verify.otp')
             ->with('success', 'OTP sent to your email!');
     }
 
-    public function resetNewPassword($email)
+    public function resetNewPassword()
     {
-        return view('auth.reset-new-password', compact('email'));
+        return view('auth.reset-new-password');
     }
 
     public function updateNewPassword(Request $request)
     {
 
         $request->validate([
-            'email' => 'required|email|exists:users|email',
             'password' => 'required|confirmed|min:6'
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $email = session('reset_email');
 
-        if (!$user) {
+        if (!$email) {
             return redirect()->route('login')->with('error', 'User not found.');
         }
 
+        $user = User::where('email', $email)->first();
         $user->password = Hash::make($request->password);
         $user->save();
+
+        // clear session
+        session()->forget('reset_email');
 
         return redirect()->route('login')->with('success', 'Password updated successfully. Please login.');
     }

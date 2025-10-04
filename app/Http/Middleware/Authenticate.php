@@ -21,6 +21,16 @@ class Authenticate
             return redirect()->route('login')->with('error', 'Please login first.');
         }
 
+        if ($request->is('admin/*') && Auth::user()->role !== 'admin') {
+            Auth::logout();
+
+            // Invalidate session
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->with('error', 'You are not authorized to access admin panel.');
+        }
+
         return $next($request);
     }
 }
