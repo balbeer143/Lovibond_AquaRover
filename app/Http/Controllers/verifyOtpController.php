@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\SendOtpMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -43,7 +44,12 @@ class verifyOtpController extends Controller
             return redirect()->back()->with('error', 'Invalid OTP. Please try again.');
         }
 
+        if (Carbon::now()->greaterThan($user->otp_expires_at)) {
+            return redirect()->back()->with('error', 'OTP has expired. Please request a new one.');
+        }
+
         $user->otp = null; // clear OTP
+        $user->otp_expires_at = null;
 
         if ($formName === 'register') {
 
@@ -84,10 +90,11 @@ class verifyOtpController extends Controller
         // Generate new OTP
         $otp = rand(100000, 999999);
         $user->otp = $otp;
+        $user->otp_expires_at = Carbon::now()->addMinutes(2);
         $user->save();
 
         // Send OTP email
-        Mail::to($user->email)->send(new SendOtpMail($otp));
+        Mail::to($user->email)->send(new SendOtpMail($otp, true, false));
 
         return redirect()->back()->with('success', 'A new OTP has been sent to your email.');
     }

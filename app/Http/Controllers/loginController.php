@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\SendOtpMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,6 +44,7 @@ class loginController
             // Generate new OTP
             $otp = rand(100000, 999999);
             $user->otp = $otp;
+            $user->otp_expires_at = Carbon::now()->addMinutes(2);
             $user->save();
 
             // Send OTP email
@@ -94,6 +96,7 @@ class loginController
         $otp = rand(100000, 999999);
         $user = User::where('email', $request->email)->first();
         $user->otp = $otp;
+        $user->otp_expires_at = Carbon::now()->addMinutes(2);
         $user->save();
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\SendOtpMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -36,6 +37,7 @@ class registerController extends Controller
             'role' => 'user', // default role
             'otp' => $otp,
             'is_verified' => false,
+            'otp_expires_at' => Carbon::now()->addMinutes(2),
         ]);
 
         // Send OTP via Mail
