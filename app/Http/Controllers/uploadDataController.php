@@ -30,7 +30,6 @@ class uploadDataController extends Controller
         } else {
             $allUploadData = AquaRoverFormData::where('user_id', Auth::id())->get();
         }
-
         return view('show-form-data', compact('allUploadData'));
     }
 
@@ -89,6 +88,8 @@ class uploadDataController extends Controller
                 ->withInput();
         }
 
+        $data = $request->all();
+
         $userId = $request->user_id;
 
         // --- Combine value + unit for instruments ---
@@ -104,12 +105,10 @@ class uploadDataController extends Controller
             $value = $request->input($field);
             $unit  = $request->input($unitField);
 
-            if (!empty($value)) {          // only if value exists
-                $data[$field] = $value;
-
-                if (!empty($unit)) {       // add unit only if it exists
-                    $data[$field] .= ' ' . $unit;
-                }
+            if (!empty($value) && !empty($unit)) {
+                $data[$field] = $value . ' ' . $unit; // e.g. "25 °C"
+            } else {
+                $data[$field] = null; // blank rakho
             }
         }
 
@@ -129,8 +128,6 @@ class uploadDataController extends Controller
         if ($request->has('instruments')) {
             $data['instruments'] = json_encode($request->instruments);
         }
-        
-        $data = $request->all();
 
         AquaRoverFormData::create($data);
 

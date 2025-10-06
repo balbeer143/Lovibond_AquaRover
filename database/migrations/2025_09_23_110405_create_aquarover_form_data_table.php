@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('village');
             $table->string('latitude');
             $table->string('longitude');
-            $table->string('location_screenShot')->nullable();
             $table->string('sample_type');
             $table->string('source_category');
             $table->date('date');

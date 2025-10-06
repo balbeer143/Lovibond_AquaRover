@@ -264,6 +264,7 @@
                         <div class="flex">
                             <input type="text" name="ph" class="border rounded-l px-2 py-1 w-full" value="{{ old('ph') }}">
                             <select name="ph_unit" class="border rounded-r px-2 py-1 bg-gray-50">
+                                <option value="">Select unit</option>
                                 <option value="pH">pH</option>
                                 <option value="mV">mV</option>
                             </select>
@@ -276,6 +277,7 @@
                         <div class="flex">
                             <input type="text" name="temperature" class="border rounded-l px-2 py-1 w-full" value="{{ old('temperature') }}">
                             <select name="temperature_unit" class="border rounded-r px-2 py-1 bg-gray-50">
+                                <option value="">Select unit</option>
                                 <option value="°C">°C</option>
                                 <option value="°F">°F</option>
                             </select>
@@ -288,6 +290,7 @@
                         <div class="flex">
                             <input type="text" name="conductivity" class="border rounded-l px-2 py-1 w-full" value="{{ old('conductivity') }}">
                             <select name="conductivity_unit" class="border rounded-r px-2 py-1 bg-gray-50">
+                                <option value="">Select unit</option>
                                 <option value="μS/cm">μS/cm</option>
                                 <option value="mS/cm">mS/cm</option>
                             </select>
@@ -300,6 +303,7 @@
                         <div class="flex">
                             <input type="text" name="tds" class="border rounded-l px-2 py-1 w-full" value="{{ old('tds') }}">
                             <select name="tds_unit" class="border rounded-r px-2 py-1 bg-gray-50">
+                                <option value="">Select unit</option>
                                 <option value="PPM">PPM</option>
                                 <option value="PPT">PPT</option>
                             </select>
@@ -312,6 +316,7 @@
                         <div class="flex">
                             <input type="text" name="salinity" class="border rounded-l px-2 py-1 w-full" value="{{ old('salinity') }}">
                             <select name="salinity_unit" class="border rounded-r px-2 py-1 bg-gray-50">
+                                <option value="">Select unit</option>
                                 <option value="PPT">PPT</option>
                                 <option value="PSU">PSU</option>
                             </select>
