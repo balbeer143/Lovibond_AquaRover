@@ -13,6 +13,7 @@
     <!-- intl-tel-input CSS -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -29,6 +30,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 
 
     <style>
@@ -174,12 +176,12 @@
                             </div>
 
                             <div>
-                                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Designation</p>
+                                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">department</p>
                                 <div class="flex items-center gap-3">
                                     <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M10 2a5 5 0 00-5 5v1a5 5 0 0010 0V7a5 5 0 00-5-5zM4 12a4 4 0 018 0v1H4v-1zM2 16a2 2 0 012-2h12a2 2 0 012 2v1H2v-1z" />
                                     </svg>
-                                    <p class="text-gray-700 text-sm">{{ Auth::user()->designation ?? 'N/A' }}</p>
+                                    <p class="text-gray-700 text-sm">{{ Auth::user()->department ?? 'N/A' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +228,7 @@
     <div>
         <!-- Profile Update Modal -->
         <div x-show="openProfileModal" x-cloak
-            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[99999]">
 
             <div @click.away="openProfileModal = false"
                 class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
@@ -241,42 +243,77 @@
                 </div>
 
                 <!-- Form -->
-                <form method="POST" action="{{ route('update.profile') }}" class="space-y-4">
-                    @csrf
+                <div class="relative z-50">
+                    <form method="POST" action="{{ route('update.profile') }}" class="space-y-4">
+                        @csrf
 
-                    <!-- Contact Number -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                        <input type="text" name="name" value="{{ Auth::user()->name }}"
-                            class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
-                    </div>
+                        <!-- Contact Number -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <input type="text" name="name" value="{{ Auth::user()->name }}"
+                                class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                        </div>
 
-                    <!-- Contact Number -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
-                        <input type="text" name="contact_number" value="{{ Auth::user()->contact_number }}"
-                            class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
-                    </div>
+                        <!-- Contact Number -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                            <input type="text" name="contact_number" value="{{ Auth::user()->contact_number }}"
+                                class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                        </div>
 
-                    <!-- Designation -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Designation</label>
-                        <input type="text" name="designation" value="{{ Auth::user()->designation }}"
-                            class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
-                    </div>
+                        <!-- Designation -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                            <input type="text" name="department" value="{{ Auth::user()->department }}"
+                                class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                        </div>
 
-                    <!-- Action Buttons -->
-                    <div class="flex justify-end gap-3 pt-2">
-                        <button type="button" @click="openProfileModal = false"
-                            class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow">
-                            Save Changes
-                        </button>
-                    </div>
-                </form>
+                        <!-- Password Change Section -->
+                        <h3 class="text-gray-700 font-medium mb-2">Change Password (Optional)</h3>
+
+                        <!-- Current Password -->
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                            <input type="password" name="current_password"
+                                class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                            <span class="password-toggle absolute right-3 top-9 cursor-pointer text-gray-500">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </span>
+                        </div>
+
+                        <!-- New Password -->
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                            <input type="password" name="new_password"
+                                class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                            <span class="password-toggle absolute right-3 top-9 cursor-pointer text-gray-500">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </span>
+                        </div>
+
+                        <!-- Confirm New Password -->
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                            <input type="password" name="new_password_confirmation"
+                                class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none">
+                            <span class="password-toggle absolute right-3 top-9 cursor-pointer text-gray-500">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex justify-end gap-3 pt-2">
+                            <button type="button" @click="openProfileModal = false"
+                                class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -364,6 +401,27 @@
                 "language": {
                     "search": "Search User:"
                 }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.password-toggle').forEach(function(toggle) {
+                toggle.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const icon = this.querySelector('i');
+
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    }
+                });
             });
         });
     </script>

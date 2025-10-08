@@ -304,8 +304,8 @@
                             <input type="text" name="tds" class="border rounded-l px-2 py-1 w-full" value="{{ old('tds') }}">
                             <select name="tds_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="">Select unit</option>
-                                <option value="PPM">PPM</option>
-                                <option value="PPT">PPT</option>
+                                <option value="PPM">ppm</option>
+                                <option value="PPT">ppt</option>
                             </select>
                         </div>
                     </div>
@@ -350,12 +350,12 @@
         </div>
 
         {{-- Google reCAPTCHA --}}
-        {!! NoCaptcha::renderJs() !!}
+        <!-- {!! NoCaptcha::renderJs() !!}
         {!! NoCaptcha::display() !!}
 
         @error('g-recaptcha-response')
         <span class="text-red-500">{{ $message }}</span>
-        @enderror
+        @enderror -->
 
         <!-- Submit -->
         <div class="text-right mt-6">

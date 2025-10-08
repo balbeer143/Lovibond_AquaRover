@@ -79,7 +79,7 @@ class uploadDataController extends Controller
             'salinity_unit' => 'nullable|in:PPT,PSU',
 
             // google recaptcha
-            'g-recaptcha-response' => 'required|captcha',
+            // 'g-recaptcha-response' => 'required|captcha',
         ]);
 
         if ($validator->fails()) {
@@ -106,9 +106,9 @@ class uploadDataController extends Controller
             $unit  = $request->input($unitField);
 
             if (!empty($value) && !empty($unit)) {
-                $data[$field] = $value . ' ' . $unit; // e.g. "25 °C"
+                $data[$field] = $value . ' ' . $unit;
             } else {
-                $data[$field] = null; // blank rakho
+                $data[$field] = null;
             }
         }
 

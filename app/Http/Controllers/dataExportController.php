@@ -31,11 +31,12 @@ class dataExportController extends Controller
             'format'    => 'nullable|in:xlsx,csv', // ✅ validate format
         ]);
 
-        // Agar dates empty hain, default aaj ka use karo
         $from = $request->from_date ?: date('Y-m-d');
         $to   = $request->to_date ?: date('Y-m-d');
 
         $user = Auth::user();
+
+        // dd($user);
 
         $mergeData = [];
 
@@ -128,6 +129,20 @@ class dataExportController extends Controller
             return redirect()->back()->with('error', 'No data found for the selected date range.');
         }
 
+        $columnsWithData = [];
+        foreach ($mergeData as $row) {
+            foreach ($row as $key => $value) {
+                if (!empty($value)) {
+                    $columnsWithData[$key] = true;
+                }
+            }
+        }
+
+        $filteredData = [];
+        foreach ($mergeData as $row) {
+            $filteredData[] = array_intersect_key($row, $columnsWithData);
+        }
+
         $format = $request->format ?: 'xlsx';
         $extension = $format === 'csv' ? 'csv' : 'xlsx';
 
@@ -139,6 +154,19 @@ class dataExportController extends Controller
             ? "{$prefix}Today_Data_{$from}.{$extension}"
             : "{$prefix}Selected_Date_Data_{$from}_to_{$to}.{$extension}";
 
-        return Excel::download(new masterSheetExcelImport($mergeData), $filename, $writerType);
+        $dateTime  = $from === $to ? $from : $from . ' to ' . $to;
+
+        return Excel::download(
+            new masterSheetExcelImport(
+                $filteredData,
+                $user->name ?? 'Unknown User',
+                $user->mobile ?? 'N/A',
+                $user->email ?? 'N/A',
+                $user->department ?? 'N/A',
+                $dateTime
+            ),
+            $filename,
+            $writerType
+        );
     }
 }

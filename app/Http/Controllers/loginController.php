@@ -147,12 +147,21 @@ class loginController
         $request->validate([
             'name' => 'required|string|max:255',
             'contact_number' => 'nullable|string|max:20',
-            'designation' => 'nullable|string|max:100',
+            'department' => 'nullable|string|max:100',
+            'current_password'     => 'nullable|string',
+            'new_password'         => 'nullable|string|min:6|confirmed',
         ]);
 
         $user->name = $request->name;
         $user->contact_number = $request->contact_number;
-        $user->designation = $request->designation;
+        $user->department = $request->department;
+
+        if ($request->filled('current_password') && $request->filled('new_password')) {
+            if (!\Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+            }
+            $user->password = \Hash::make($request->new_password);
+        }
 
         $user->save();
 

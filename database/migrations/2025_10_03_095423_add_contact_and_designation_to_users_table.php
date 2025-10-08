@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('contact_number')->nullable();
-            $table->string('designation')->nullable();
+            $table->string('department')->nullable();
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['contact_number', 'designation']);
+            $table->dropColumn(['contact_number', 'department']);
         });
     }
 };

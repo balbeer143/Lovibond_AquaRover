@@ -14,7 +14,7 @@
                     <th class="px-4 py-2">Name</th>
                     <th class="px-4 py-2">Email</th>
                     <th class="px-4 py-2">Mobile Number</th>
-                    <th class="px-4 py-2">Designation</th>
+                    <th class="px-4 py-2">Department</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,7 +24,7 @@
                         <td class="px-4 py-2">{{ $user->name }}</td>
                         <td class="px-4 py-2">{{ $user->email }}</td>
                         <td class="px-4 py-2">{{ $user->contact_number }}</td>
-                        <td class="px-4 py-2">{{ $user->designation }}</td>
+                        <td class="px-4 py-2">{{ $user->department }}</td>
                     </tr>
                 @endforeach
             </tbody>
