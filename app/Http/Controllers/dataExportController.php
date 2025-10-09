@@ -24,7 +24,6 @@ class dataExportController extends Controller
     // Export data by date range
     public function exportDateRange(Request $request)
     {
-
         $request->validate([
             'from_date' => 'nullable|date',
             'to_date'   => 'nullable|date|after_or_equal:from_date',
@@ -144,6 +143,7 @@ class dataExportController extends Controller
         }
 
         $format = $request->format ?: 'xlsx';
+
         $extension = $format === 'csv' ? 'csv' : 'xlsx';
 
         $writerType = $format === 'csv' ? ExcelWriter::CSV : ExcelWriter::XLSX;
@@ -160,7 +160,7 @@ class dataExportController extends Controller
             new masterSheetExcelImport(
                 $filteredData,
                 $user->name ?? 'Unknown User',
-                $user->mobile ?? 'N/A',
+                $user->contact_number ?? 'N/A',
                 $user->email ?? 'N/A',
                 $user->department ?? 'N/A',
                 $dateTime

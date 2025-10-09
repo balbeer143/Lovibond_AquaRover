@@ -143,7 +143,9 @@
         </div>
 
         <!-- Map -->
-        <div id="map" style="height: 400px; margin-top: 15px; border-radius:8px;"></div>
+        <div id="map" style="height: 400px; margin-top: 15px; border-radius:8px; position: relative;">
+            <div class="locate-button" id="locateBtn" title="Go to my location">📍</div>
+        </div>
 
         <!-- Sample Type -->
         <div>
@@ -154,6 +156,7 @@
                 <option value="Industrial" {{ old('sample_type') == 'Industrial' ? 'selected' : '' }}>Industrial</option>
                 <option value="Institutional" {{ old('sample_type') == 'Institutional' ? 'selected' : '' }}>Institutional</option>
                 <option value="Govt" {{ old('sample_type') == 'Govt' ? 'selected' : '' }}>Govt</option>
+                <option value="Other" {{ old('sample_type') == 'Other' ? 'selected' : '' }}>Other</option>
             </select>
             @error('sample_type')
             <p class="text-sm text-red-600">{{ $message }}</p>
@@ -304,8 +307,8 @@
                             <input type="text" name="tds" class="border rounded-l px-2 py-1 w-full" value="{{ old('tds') }}">
                             <select name="tds_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="">Select unit</option>
-                                <option value="PPM">ppm</option>
-                                <option value="PPT">ppt</option>
+                                <option value="ppm">ppm</option>
+                                <option value="ppt">ppt</option>
                             </select>
                         </div>
                     </div>
@@ -435,11 +438,10 @@
             })
             .addTo(map);
 
-        // Browser geolocation
+        // Browser geolocation (auto when page loads)
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    // Success: show marker and set coordinates
                     var lat = position.coords.latitude;
                     var lng = position.coords.longitude;
                     marker.setLatLng([lat, lng]).setOpacity(1);
@@ -448,18 +450,38 @@
                     document.getElementById('longitude').value = lng;
                 },
                 function(error) {
-                    // Error: alert but do not set any value
-                    alert("Unable to fetch your location. Please enable browser location.");
                     console.error(error);
                 }
             );
-        } else {
-            alert("Geolocation is not supported by your browser.");
+        }
+
+        // 📍 Locate Button click event
+        var locateBtn = document.getElementById('locateBtn');
+        if (locateBtn) {
+            locateBtn.addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            var lat = position.coords.latitude;
+                            var lng = position.coords.longitude;
+                            marker.setLatLng([lat, lng]).setOpacity(1);
+                            map.setView([lat, lng], 15);
+                            document.getElementById('latitude').value = lat;
+                            document.getElementById('longitude').value = lng;
+                        },
+                        function(error) {
+                            alert("Unable to fetch your location. Please enable browser location.");
+                            console.error(error);
+                        }
+                    );
+                } else {
+                    alert("Geolocation is not supported by your browser.");
+                }
+            });
         }
 
     });
 </script>
-
 
 <!-- Common JS for All Drop Zones -->
 <script>

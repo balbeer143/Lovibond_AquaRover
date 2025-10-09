@@ -67,19 +67,23 @@ class uploadDataController extends Controller
             'tb350_files' => 'nullable|mimes:xlsx,xls,csv',
 
             // --- Validation for value + unit ---
-            'ph' => 'nullable|numeric',
-            'ph_unit' => 'nullable|in:pH,mV',
-            'temperature' => 'nullable|numeric',
-            'temperature_unit' => 'nullable|in:°C,°F',
-            'conductivity' => 'nullable|numeric',
-            'conductivity_unit' => 'nullable|in:μS/cm,mS/cm',
-            'tds' => 'nullable|numeric',
-            'tds_unit' => 'nullable|in:PPM,PPT',
-            'salinity' => 'nullable|numeric',
-            'salinity_unit' => 'nullable|in:PPT,PSU',
+            'ph' => 'nullable|numeric|required_with:ph_unit',
+            'ph_unit' => 'nullable|in:pH,mV|required_with:ph',
+
+            'temperature' => 'nullable|numeric|required_with:temperature_unit',
+            'temperature_unit' => 'nullable|in:°C,°F|required_with:temperature',
+
+            'conductivity' => 'nullable|numeric|required_with:conductivity_unit',
+            'conductivity_unit' => 'nullable|in:μS/cm,mS/cm|required_with:conductivity',
+
+            'tds' => 'nullable|numeric|required_with:tds_unit',
+            'tds_unit' => 'nullable|in:ppm,ppt|required_with:tds',
+
+            'salinity' => 'nullable|numeric|required_with:salinity_unit',
+            'salinity_unit' => 'nullable|in:PPT,PSU|required_with:salinity',
 
             // google recaptcha
-            // 'g-recaptcha-response' => 'required|captcha',
+            //'g-recaptcha-response' => 'required|captcha',
         ]);
 
         if ($validator->fails()) {
@@ -89,8 +93,6 @@ class uploadDataController extends Controller
         }
 
         $data = $request->all();
-
-        $userId = $request->user_id;
 
         // --- Combine value + unit for instruments ---
         $fieldsWithUnits = [
@@ -112,7 +114,7 @@ class uploadDataController extends Controller
             }
         }
 
-        $fileFields = ['sd40_files'];
+        $fileFields = ['xd7500_files', 'sd335_files', 'md610_files', 'sd400_oxi_l_field', 'tb350_files', 'sd40_files'];
 
         foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
@@ -130,6 +132,8 @@ class uploadDataController extends Controller
         }
 
         AquaRoverFormData::create($data);
+
+        $userId = Auth::id();
 
         if ($request->hasFile('xd7500_files')) {
             Excel::import(new usersImportExcel_XD7500($userId), $request->file('xd7500_files'));

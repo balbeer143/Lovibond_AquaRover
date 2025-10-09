@@ -41,7 +41,7 @@ class masterSheetExcelImport implements FromCollection, WithHeadings
             ["Mobile Number: " . $this->mobile],
             ["Email ID: " . $this->email],
             ["Department: " . $this->department],
-            ["Date & Time: " . $this->dateTime],
+            ["Date: " . $this->dateTime],
             [],
             $headings,
         ];

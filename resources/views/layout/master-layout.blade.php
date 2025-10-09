@@ -41,6 +41,19 @@
         [x-cloak] {
             display: none !important;
         }
+
+        .locate-button {
+            position: absolute;
+            bottom: 30px;
+            right: 15px;
+            background: white;
+            border-radius: 50%;
+            padding: 7px 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            font-size: 20px;
+        }
     </style>
 </head>
 
