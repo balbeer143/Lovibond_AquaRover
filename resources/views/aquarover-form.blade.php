@@ -270,8 +270,11 @@
                                 <option value="">Select unit</option>
                                 <option value="pH">pH</option>
                                 <option value="mV">mV</option>
-                            </select>
+                            </select>  
                         </div>
+                        @error('ph_unit')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                     </div>
 
                     <!-- Temperature -->
@@ -284,7 +287,11 @@
                                 <option value="°C">°C</option>
                                 <option value="°F">°F</option>
                             </select>
+                            
                         </div>
+                        @error('temperature_unit')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                     </div>
 
                     <!-- Conductivity -->
@@ -297,7 +304,11 @@
                                 <option value="μS/cm">μS/cm</option>
                                 <option value="mS/cm">mS/cm</option>
                             </select>
+                            
                         </div>
+                        @error('conductivity_unit')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                     </div>
 
                     <!-- TDS -->
@@ -310,7 +321,11 @@
                                 <option value="ppm">ppm</option>
                                 <option value="ppt">ppt</option>
                             </select>
+                            
                         </div>
+                        @error('tds_unit')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                     </div>
 
                     <!-- Salinity -->
@@ -323,7 +338,11 @@
                                 <option value="PPT">PPT</option>
                                 <option value="PSU">PSU</option>
                             </select>
+                            
                         </div>
+                        @error('salinity_unit')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                     </div>
 
                 </div>
