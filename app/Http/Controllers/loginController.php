@@ -99,7 +99,6 @@ class loginController
         $user->otp_expires_at = Carbon::now()->addMinutes(2);
         $user->save();
 
-
         // Send OTP email
         Mail::to($user->email)->send(new SendOtpMail($otp, false, true));
 

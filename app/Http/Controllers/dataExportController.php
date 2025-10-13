@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Exports\masterSheetExcelImport;
 use App\Models\AquaRoverFormData;
 use App\Models\MD610_Excel_Model;
+use App\Models\SD335_Excel_Model;
 use App\Models\SD400_OXI_L_Excel_Model;
+use App\Models\TB350_Excel_Model;
 use App\Models\XD7500_Excel_Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +83,34 @@ class dataExportController extends Controller
                 ->get();
         }
 
+        //TB350
+        if ($user && $user->role === 'admin') {
+            $tb350 = TB350_Excel_Model::select('measurement')
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        } else {
+            $tb350 = TB350_Excel_Model::select('measurement')
+                ->where('user_id', $user->id)
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        }
+
+        //SD335
+        if ($user && $user->role === 'admin') {
+            $sd335 = SD335_Excel_Model::select('value', 'unit')
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        } else {
+            $sd335 = SD335_Excel_Model::select('value', 'unit')
+                ->where('user_id', $user->id)
+                ->whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->get();
+        }
+
         // SD40
         if ($user && $user->role === 'admin') {
             $sd40 = AquaRoverFormData::select('ph', 'temperature', 'conductivity', 'tds', 'salinity')
@@ -95,7 +125,7 @@ class dataExportController extends Controller
                 ->get();
         }
 
-        $max = max($xd7500->count(), $md610->count(), $sd400->count(), $sd40->count());
+        $max = max($xd7500->count(), $md610->count(), $sd400->count(), $tb350->count(), $sd335->count(), $sd40->count());
 
         for ($i = 0; $i < $max; $i++) {
             $mergeData[] = [
@@ -113,6 +143,13 @@ class dataExportController extends Controller
 
                 // SD400
                 'SD400_do_mg_l' => $sd400[$i]->do_mg_l ?? '',
+
+                // TB350
+                'TB350_measurement' => $tb350[$i]->measurement ?? '',
+
+                // SD335
+                'SD335_value' => $sd335[$i]->value ?? '',
+                'SD335_unit' => $sd335[$i]->unit ?? '',
 
                 // SD40
                 'SD40_ph' => $sd40[$i]->ph ?? '',
@@ -141,6 +178,8 @@ class dataExportController extends Controller
         foreach ($mergeData as $row) {
             $filteredData[] = array_intersect_key($row, $columnsWithData);
         }
+
+        // dd($filteredData);
 
         $format = $request->format ?: 'xlsx';
 

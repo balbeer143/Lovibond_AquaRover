@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="bg-white rounded-lg shadow p-6">
-    
+
     <!-- Table Scroll Wrapper -->
     <div class="overflow-x-auto">
         <table class="dataTable overflow-x-auto border border-gray-200 rounded text-sm">
@@ -49,7 +49,10 @@
                     <td class="px-4 py-2">{{ $formData->village ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->latitude ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->longitude ?? '-' }}</td>
-                    <td class="px-4 py-2">{{ $formData->sample_type ?? '-' }}</td>
+                    <td class="px-4 py-2">
+                        {{ $formData->sample_type === 'Other' && !empty($formData->other_sample_type)
+                        ? $formData->other_sample_type : ($formData->sample_type ?? '-') }}
+                    </td>
                     <td class="px-4 py-2">{{ $formData->source_category ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->date ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $formData->time ?? '-' }}</td>

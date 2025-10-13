@@ -150,7 +150,7 @@
         <!-- Sample Type -->
         <div>
             <label class="block text-sm font-semibold">Sample Type*</label>
-            <select name="sample_type" class="w-full border rounded px-3 py-2">
+            <select id="sample_type" name="sample_type" class="w-full border rounded px-3 py-2">
                 <option value="Domestic" {{ old('sample_type') == 'Domestic' ? 'selected' : '' }}>Domestic</option>
                 <option value="Commercial" {{ old('sample_type') == 'Commercial' ? 'selected' : '' }}>Commercial</option>
                 <option value="Industrial" {{ old('sample_type') == 'Industrial' ? 'selected' : '' }}>Industrial</option>
@@ -158,6 +158,9 @@
                 <option value="Govt" {{ old('sample_type') == 'Govt' ? 'selected' : '' }}>Govt</option>
                 <option value="Other" {{ old('sample_type') == 'Other' ? 'selected' : '' }}>Other</option>
             </select>
+
+            <input type="text" id="other_sample_type" name="other_sample_type" class="w-full border rounded px-3 py-2 mt-2 hidden" placeholder="Please specify other type" value="{{ old('other_sample_type') }}">
+            
             @error('sample_type')
             <p class="text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -335,8 +338,8 @@
                             <input type="text" name="salinity" class="border rounded-l px-2 py-1 w-full" value="{{ old('salinity') }}">
                             <select name="salinity_unit" class="border rounded-r px-2 py-1 bg-gray-50">
                                 <option value="">Select unit</option>
-                                <option value="PPT">PPT</option>
-                                <option value="PSU">PSU</option>
+                                <option value="ppt">ppt</option>
+                                <option value="psu">psu</option>
                             </select>
                             
                         </div>
@@ -541,6 +544,16 @@
             }
         });
     });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const select = document.getElementById('sample_type');
+  const other = document.getElementById('other_sample_type');
+  select.addEventListener('change', () => {
+    select.value === 'Other' ? other.classList.remove('hidden') : other.classList.add('hidden');
+  });
+});
 </script>
 
 @endsection

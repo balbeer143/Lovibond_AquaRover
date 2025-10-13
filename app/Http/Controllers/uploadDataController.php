@@ -53,6 +53,7 @@ class uploadDataController extends Controller
             'longitude' => 'required',
             'sd40_files' => 'nullable|image',
             'sample_type' => 'required|string',
+            'other_sample_type' => 'required_if:sample_type,Other|string|nullable',
             'source_category' => 'required|string',
             'date' => 'required|date',
             'time' => 'required',
@@ -80,7 +81,7 @@ class uploadDataController extends Controller
             'tds_unit' => 'nullable|in:ppm,ppt|required_with:tds',
 
             'salinity' => 'nullable|numeric|required_with:salinity_unit',
-            'salinity_unit' => 'nullable|in:PPT,PSU|required_with:salinity',
+            'salinity_unit' => 'nullable|in:ppt,psu|required_with:salinity',
 
             // google recaptcha
             //'g-recaptcha-response' => 'required|captcha',
@@ -93,6 +94,8 @@ class uploadDataController extends Controller
         }
 
         $data = $request->all();
+
+        $data['other_sample_type'] = $request->sample_type === 'Other' ? $request->other_sample_type : null;
 
         // --- Combine value + unit for instruments ---
         $fieldsWithUnits = [

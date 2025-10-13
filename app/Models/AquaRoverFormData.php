@@ -10,7 +10,7 @@ class AquaRoverFormData extends Model
 
     protected $fillable = [
         'user_id','name','tested_by','mobile','email','address','state',
-        'city','village','latitude','longitude','sample_type',
+        'city','village','latitude','longitude','sample_type', 'other_sample_type',
         'source_category','date','time','instruments',
         'xd7500_files','sd335_files','md610_files','tb350_files',
         'sd400_oxi_l_field','ph','temperature','conductivity',
